@@ -1,0 +1,98 @@
+{
+  "sidebar": {
+    "dashboard": "Painel",
+    "dashboard1": "Painel Médico",
+    "dashboard2": "Painel Hospitalar 1",
+    "dashboard3": "Painel Hospitalar 2",
+    "dashboard4": "Painel do Paciente",
+    "app": "App",
+    "checkout": "Checkout",
+    "socialApp": "Social App",
+    "todo": "Todo",
+    "projectManagement": "Gerenciamento de projetos",
+    "email": "E-mail",
+    "inbox": "Caixa de entrada",
+    "emailCompose": "Escrever e-mail",
+    "calendar": "Calendário",
+    "doctor": "Doutores",
+    "doctorProfile": "Perfil do Doutor",
+    "doctorEdit": "Editar Doutor",
+    "doctorAdd": "Adicionar Doutor",
+    "doctorList": "Doutores",
+    "chat": "Chat",
+    "settings": "Configurações"
+  },
+  "nav": {
+    "allNotifications": "Todas as Notificações",
+    "allMessages": "Todas as mensagens",
+    "user": {
+      "available": "Disponível",
+      "profileTitle": "Meu perfil",
+      "profileSub": "Detalhes do perfil",
+      "profileEditTitle": "Editar Perfil",
+      "profileEditSub": "Modificar dados pessoais.",
+      "accountSettingTitle": "Configurações de conta",
+      "accountSettingSub": "Gerencie os parâmetros da conta.",
+      "privacySettingTitle": "Configuração de privacidade",
+      "privacySettingSub": "Controle seus parâmetros de privacidade.",
+      "signout": "Sair"
+    }
+  },
+  "dashboard2": {
+    "card1": "AVG Impressions",
+    "card2": "AVG Engagements Rate",
+    "card3": "AVG Reach",
+    "card4": "AVG Transport",
+    "featureTableTitle": "Lista de postagens frequentes",
+    "summary": "Resumo da postagem",
+    "totalLikeComment": "Total de curtidas e comentários",
+    "bestPost": "Postagens com melhor desempenho"
+  },
+  "dashboard1": {
+    "card1": "Fatura Enviada",
+    "card2": "Creditado de contas",
+    "card3": "AVG Employee Costs",
+    "card4": "Average payment delay",
+    "invoice" : "Fatura",
+    "invoiceState": "Estatísticas da fatura",
+    "openInvoice": "Faturas Abertas",
+    "monthlyInvoice": "Faturas Mensais",
+    "exchangeRates": "Taxas de câmbio",
+    "paymentHistory" : "Histórico de pagamento",
+    "lastCosts" : "Últimos custos",
+    "efficiency" : "Eficiência"
+  },
+  "rightSide": {
+    "customerDistribution" : "Distribuição de clientes",
+    "projectStatistic" : "Estatística do projeto",
+    "countries" : "Países"
+  },
+  "dropdown": {
+    "view" : "Visualizar",
+    "delete": "Excluir",
+    "edit" : "Editar",
+    "print" : "Imprimir",
+    "download": "Download",
+    "unfollow" : "Deixar de seguir",
+    "follow" : "Seguir",
+    "block" : "Bloquear"
+  },
+  "customizer": {
+    "colorCustomizer": "Personalizar cor",
+    "themeColor": "Cor do tema",
+    "colorMode": "Modo de cor",
+    "sidebar": "Barra Lateral",
+    "sidebarMini": "Minibarra lateral",
+    "routeAnimation" : "Animação de rota",
+    "rtlMode": "RTL Mode",
+    "rtl": "RTL",
+    "reset": "Reiniciar"
+  },
+  "settings": {
+    "unitTab": "Unidades Clínicas",
+    "units": {
+      "alias": "Apelido",
+      "title": "Unidades Clínicas"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>alert</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="JavascriptEmailValidation" transform="translate(-1130.000000, -258.000000)" fill="#BF0404" fill-rule="nonzero">
+            <g id="alert" transform="translate(1130.000000, 258.000000)">
+                <path d="M22,30 L18,30 L18,26 L22,26 L22,30 Z M22,22 L18,22 L18,10 L22,10 L22,22 Z" id="Shape"></path>
+                <path d="M20,4 C28.8,4 36,11.2 36,20 C36,28.8 28.8,36 20,36 C11.2,36 4,28.8 4,20 C4,11.2 11.2,4 20,4 M0,20 C0,31 9,40 20,40 C31,40 40,31 40,20 C40,9 31,0 20,0 C9,0 0,9 0,20 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

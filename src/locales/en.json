@@ -1,0 +1,107 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "dashboard1": "Doctor Dashboard",
+    "dashboard2": "Hospital Dashboard 1",
+    "dashboard3": "Hospital Dashboard 2",
+    "dashboard4": "Patient Dashboard",
+    "app": "App",
+    "eCommerce": "E-Commerce",
+    "productListing": "Product Listing",
+    "productDetail": "Product Detail",
+    "checkout": "Checkout",
+    "wishlist": "Wishlist",
+    "socialApp": "Social App",
+    "todo": "Todo",
+    "projectManagement": "Project Management",
+    "email": "Email",
+    "inbox": "Inbox",
+    "emailCompose": "Email Compose",
+    "calendar": "Calendar",
+    "doctor": "Doctors",
+    "doctorProfile": "Doctor Profile",
+    "doctorEdit": "Edit Doctor",
+    "doctorAdd": "Add Doctor",
+    "doctorList": "All Doctors",
+    "chat": "Chat",
+    "settings": "Settings",
+    "staffs": "Staffs",
+    "staffList": "Staff List"
+  },
+  "nav": {
+    "allNotifications": "All Notifications",
+    "allMessages": "All Messages",
+    "allCarts": "All Carts",
+    "viewCarts": "View Carts",
+    "user": {
+      "available": "Available",
+      "profileTitle": "My Profile",
+      "profileSub": "View personal profile details.",
+      "profileEditTitle": "Edit Profile",
+      "profileEditSub": "Modify your personal details.",
+      "accountSettingTitle": "Account Setting",
+      "accountSettingSub": "Manage your account parameters.",
+      "privacySettingTitle": "Privacy Setting",
+      "privacySettingSub": "Control your privacy parameters.",
+      "signout": "Sign Out"
+    }
+  },
+  "dashboard2": {
+    "card1": "AVG Impressions",
+    "card2": "AVG Engagements Rate",
+    "card3": "AVG Reach",
+    "card4": "AVG Transport",
+    "featureTableTitle": "Frequent Post List",
+    "summary": "Post Summary",
+    "totalLikeComment": "Total of Likes $ Comments",
+    "bestPost": "Best Performing Posts"
+  },
+  "dashboard1": {
+    "card1": "Invoice Sent",
+    "card2": "Credited From Accounts",
+    "card3": "AVG Employee Costs",
+    "card4": "Average payment delay",
+    "invoice" : "invoice",
+    "invoiceState": "Invoice Stats",
+    "openInvoice": "Open Invoices",
+    "monthlyInvoice": "Monthly Invoices",
+    "exchangeRates": "Exchange Rates",
+    "paymentHistory" : "Payment History",
+    "lastCosts" : "Last Costs",
+    "efficiency" : "Efficiency"
+  },
+  "rightSide": {
+    "customerDistribution" : "Customer Distribution",
+    "projectStatistic" : "Project Statistic",
+    "countries" : "Countries"
+  },
+  "dropdown": {
+    "view" : "View",
+    "delete": "Delete",
+    "edit" : "Edit",
+    "print" : "Print",
+    "download": "Download",
+    "unfollow" : "Unfollow",
+    "follow" : "Follow",
+    "block" : "Block"
+  },
+  "customizer": {
+    "colorCustomizer": "Color Customizer",
+    "themeColor": "Theme Color",
+    "colorMode": "Color Mode",
+    "sidebar": "Sidebar",
+    "sidebarMini": "Sidebar Mini",
+    "routeAnimation" : "Route Animation",
+    "rtlMode": "RTL Mode",
+    "rtl": "RTL",
+    "reset": "Reset"
+  },
+  "settings": {
+    "unitTab": "Clinical Units",
+    "units": {
+      "alias": "Alias",
+      "title": "Clinical Units",
+      "addNew": "Add new"
+    }
+  }
+}
