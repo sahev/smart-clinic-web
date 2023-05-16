@@ -1,7 +1,11 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col lg="3" v-for="(item,index) in cards" :key="index">
+    <stripe-checkout ref="checkoutRef" mode="subscription" :pk="publishableKey" :line-items="lineItems"
+      :success-url="successURL" :cancel-url="cancelURL" @loading="v => loading = v" />
+
+    <b-row align-h="center">
+      <b-col lg="4"  v-for="(item, index) in cards" :key="index">
+
         <iq-card body-class="text-center" :class="item.active ? 'bg-primary text-white' : ''">
           <template v-slot:body>
             <span class="font-size-16 text-uppercase" v-if="item.plan !== ''">{{ item.plan }}</span>
@@ -12,128 +16,75 @@
             <ul class="list-unstyled line-height-4 mb-0">
               <li>{{ item.description }}</li>
             </ul>
-            <b-button :variant="item.active ? 'light' : 'primary'" class="mt-5 " :class="item.buttonClass">{{ item.button }}</b-button>
+            <b-button @click="submit(item)" :variant="item.active ? 'light' : 'primary'" class="mt-5 "
+              :class="item.buttonClass">{{ item.button }}</b-button>
           </template>
         </iq-card>
-      </b-col>
-      <b-col lg="3" v-for="(item,index) in bgCards" :key="index">
-        <b-card
-          overlay
-          :img-src="item.bgImage"
-          img-alt="Card Image"
-          text-variant="white"
-          bg-variant="dark"
-          class=" text-white text-center iq-mb-3"
-        >
-          <template>
-            <h2 class="mb-4 display-3 font-weight-bolder text-white">
-              {{ item.amount }}
-              <small class="font-size-14 text-white" >{{ item.duration }}</small>
-            </h2>
-            <ul class="list-unstyled line-height-4 mb-0">
-              <li>{{ item.description }}</li>
-            </ul>
-            <b-button :variant="item.active ? 'light' : 'primary'" class="mt-5 " :class="item.buttonClass">{{ item.button }}</b-button>
-          </template>
-        </b-card>
       </b-col>
     </b-row>
   </b-container>
 </template>
 <script>
 import { xray } from '../../config/pluginInit'
+import { StripeCheckout } from '@vue-stripe/vue-stripe'
 
 export default {
   name: 'Pricing1',
+  components: {
+    StripeCheckout
+  },
   mounted () {
     xray.index()
   },
   data () {
+    this.publishableKey = 'pk_test_51N81J4BAI350XJIzIYEqCpIS85qXYKPRtTvJP9Lfhd4tDBx2J3NLbq8M0TGo667FtWVQMOiWkvTG5vNJ6bmhvxvU009dOdVZZ8'
     return {
-      cards: [
+      loading: false,
+      lineItems: [
         {
-          plan: 'Basic',
-          amount: '$26',
-          duration: '/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Start Starter',
-          buttonClass: '',
-          bgImage: false
-        },
-        {
-          plan: 'Basic',
-          amount: '$99',
-          duration: '/ Month',
-          active: true,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Start Starter',
-          buttonClass: 'btn-block',
-          bgImage: false
-        },
-        {
-          plan: 'Basic',
-          amount: '$39',
-          duration: '/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Start Starter',
-          buttonClass: '',
-          bgImage: false
-        },
-        {
-          plan: 'Basic',
-          amount: '$25',
-          duration: '/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Start Starter',
-          buttonClass: '',
-          bgImage: false
+          price: 'price_1N81R9BAI350XJIzk3GPt9TB', // The id of the recurring price you created in your Stripe dashboard
+          quantity: 1
         }
       ],
-      bgCards: [
+      successURL: 'https://google.com',
+      cancelURL: 'http://app.localhost:8080/extra-pages/pricing-1',
+      cards: [
         {
-          plan: 'Basic',
-          amount: '26',
-          duration: '$/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Get Started',
-          buttonClass: '',
-          bgImage: require('../../assets/images/page-img/25.jpg')
+          plan: 'Starter',
+          amount: 'R$29',
+          duration: '/ Month',
+          active: true,
+          description: '- per login',
+          button: 'Start Starter',
+          buttonClass: 'btn-block',
+          bgImage: false,
+          priceId: 'price_1N81R9BAI350XJIzk3GPt9TB'
         },
         {
-          plan: 'Basic',
-          amount: '99',
-          duration: '$/ Month',
+          plan: 'Premium',
+          amount: 'R$129',
+          duration: '/ Month',
           active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Get Started',
-          buttonClass: '',
-          bgImage: require('../../assets/images/page-img/26.jpg')
-        },
-        {
-          plan: 'Basic',
-          amount: '39',
-          duration: '$/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Get Started',
-          buttonClass: '',
-          bgImage: require('../../assets/images/page-img/27.jpg')
-        },
-        {
-          plan: 'Basic',
-          amount: '25',
-          duration: '$/ Month',
-          active: false,
-          description: 'Lorem ipsum dolor sit amet Consectetur adipiscing elit Integer molestie lorem at massa Facilisis in pretium nisl aliquet Nulla volutpat aliquam velit',
-          button: 'Get Started',
-          buttonClass: '',
-          bgImage: require('../../assets/images/page-img/28.jpg')
+          description: 'unlimited logins',
+          button: 'Start Premium',
+          buttonClass: 'btn-block',
+          bgImage: false,
+          priceId: 'price_1N81SRBAI350XJIzDJumKtyN'
         }
       ]
+    }
+  },
+  methods: {
+    submit (product) {
+      this.lineItems = []
+      let subProduct = {
+        price: product.priceId,
+        quantity: 1
+      }
+
+      this.lineItems.push(subProduct)
+      // You will be redirected to Stripe's secure checkout page
+      this.$refs.checkoutRef.redirectToCheckout()
     }
   }
 }

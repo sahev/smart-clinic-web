@@ -17,6 +17,7 @@
     "@fullcalendar/interaction": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
     "@fullcalendar/vue": "^4.3.1",
+    "@vue-stripe/vue-stripe": "^4.5.0",
     "animate.css": "^3.7.2",
     "apexcharts": "^3.10.1",
     "auth0-js": "^9.12.2",
