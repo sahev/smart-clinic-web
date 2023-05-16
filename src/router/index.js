@@ -832,37 +832,50 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let isLoggedIn = store.getters['Auth/isLoggedIn']
-  var domains = window.location.hostname.split('.')
-  let isSubdomainApp = domains[0] === 'app'
+  // var domains = window.location.hostname.split('.')
+  // let isSubdomainApp = domains[0] === 'app'
   let pageMustBeAuth = to.meta.auth
 
-  if (domains.length === 1) {
-    if (!isLoggedIn && to.path === '/home') {
-      next()
-    } else if (to.path === '/auth/sign-in1') {
-      next('/home')
-    }
-  } else if (to.path === '/home' && isSubdomainApp) {
-    next('/auth/sign-in1')
-  } else if (domains[0] !== 'app') {
+  if (isLoggedIn && pageMustBeAuth) {
     next()
+  } else if (to.path === '/auth/sign-in1' && !pageMustBeAuth) {
+    next()
+  } else if (!pageMustBeAuth) {
+    next()
+  } else {
+    next('/auth/sign-in1')
   }
 
-  if (isSubdomainApp) {
-    if (isLoggedIn && pageMustBeAuth) {
-      next()
-    } else if (to.path === '/auth/sign-in1' && !pageMustBeAuth) {
-      next()
-    } else if (!pageMustBeAuth) {
-      next()
-    } else {
-      next('/auth/sign-in1')
-    }
-  } else if (to.path !== '/home' && !isSubdomainApp) {
-    next('/home')
-  } else {
-    next()
-  }
+  // PROTECT WITH SUBDOMAIN
+
+  // if (domains.length === 1) {
+  //   // with subdomain
+  //   if (!isLoggedIn && to.path === '/home') {
+  //     next()
+  //   } else if (to.path === '/auth/sign-in1') {
+  //     next('/home')
+  //   }
+  // } else if (to.path === '/home' && isSubdomainApp) {
+  //   next('/auth/sign-in1')
+  // } else if (domains[0] !== 'app') {
+  //   next()
+  // }
+
+  // if (isSubdomainApp) {
+  //   if (isLoggedIn && pageMustBeAuth) {
+  //     next()
+  //   } else if (to.path === '/auth/sign-in1' && !pageMustBeAuth) {
+  //     next()
+  //   } else if (!pageMustBeAuth) {
+  //     next()
+  //   } else {
+  //     next('/auth/sign-in1')
+  //   }
+  // } else if (to.path !== '/home' && !isSubdomainApp) {
+  //   next('/home')
+  // } else {
+  //   next()
+  // }
 })
 
 export default router
