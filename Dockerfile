@@ -4,9 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install -f
+RUN npm install -f --production
 
 COPY . .
+
+RUN npm run build
 
 FROM nginx as production-stage
 RUN mkdir /app
