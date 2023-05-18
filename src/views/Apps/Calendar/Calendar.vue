@@ -73,52 +73,52 @@ export default {
       events: [
         {
           title: 'All Day Event',
-          start: '2019-12-01',
-          color: '#fc9919'
+          start: '2023-12-01',
+          color: '#fc9923'
         },
         {
           title: 'Long Event',
-          start: '2019-12-07',
-          end: '2019-12-10',
+          start: '2023-12-07',
+          end: '2023-12-10',
           color: '#ffc107' // override!
         },
         {
           groupId: '999',
           title: 'Repeating Event',
-          start: '2019-12-09T16:00:00',
+          start: '2023-12-09T16:00:00',
           color: '#17a2b8'
         },
         {
           groupId: '999',
           title: 'Repeating Event',
-          start: '2019-12-16T16:00:00',
+          start: '2023-12-16T16:00:00',
           color: '#17a2b8'
         },
         {
           title: 'Conference',
-          start: '2019-12-11',
-          end: '2019-12-13',
+          start: '2023-12-11',
+          end: '2023-12-13',
           color: '#27e3f4' // override!
         },
         {
           title: 'Meeting',
-          start: '2019-12-12T10:30:00',
-          end: '2019-12-12T12:30:00',
+          start: '2023-12-12T10:30:00',
+          end: '2023-12-12T12:30:00',
           color: '#0084ff'
         },
         {
           title: 'Lunch',
-          start: '2019-12-12T12:00:00',
+          start: '2023-12-12T12:00:00',
           color: '#777D74'
         },
         {
           title: 'Meeting',
-          start: '2019-12-12T14:30:00',
+          start: '2023-12-12T14:30:00',
           color: '#0084ff'
         },
         {
           title: 'Birthday Party',
-          start: '2019-12-28T07:00:00',
+          start: '2023-12-28T07:00:00',
           color: '#28a745'
         },
         {
@@ -144,7 +144,7 @@ export default {
         {
           title: 'Click for Google',
           url: 'http://google.com/',
-          start: '2019-12-28'
+          start: '2023-12-28'
         },
         {
           title: 'Meeting',
@@ -164,7 +164,7 @@ export default {
         {
           title: 'All Day Event',
           start: '2020-02-01',
-          color: '#fc9919'
+          color: '#fc9923'
         },
         {
           title: 'Long Event',
