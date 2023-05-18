@@ -1,7 +1,5 @@
 FROM node:18-alpine as build-stage
 
-RUN npm install -g serve
-
 WORKDIR /app
 
 COPY package*.json ./
