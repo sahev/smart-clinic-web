@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install -f
 
+RUN npm install -g serve
+
 COPY . .
 
 FROM nginx as production-stage
