@@ -1,0 +1,238 @@
+name: Main
+on:
+  push:
+    branches: [ main ]
+jobs:
+
+  update:
+    name: checkout
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+    - name: Updating repository
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          cd hml/${{ github.event.repository.name }}
+          printf "\n\n updating repository....\n\n "
+          git reset --hard origin/main
+          git pull origin main
+
+          echo "$(docker inspect --format="{{.Image}}" $(docker ps -a --format "table {{.Names}}" | grep containerhml ))" > old_image_id.txt
+
+          echo "old image: $(head -1 old_image_id.txt)"
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+
+  build:
+    name: build
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+    - name: building image
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          cd hml/${{ github.event.repository.name }}
+
+          printf "\n\n generating docker image....\n\n "
+          docker build -t ${{ github.event.repository.name }}:hml .
+
+          echo "$(docker images --filter "reference=${{ github.event.repository.name }}:hml" --format {{.ID}})" > new_image_id.txt
+
+          echo "new image: $(head -1 new_image_id.txt)"
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+
+  deploy-hml:
+    name: deploy-hml
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: http://${{ vars.HOST }}:${{ vars.EXTERNAL_APP_PORT }}/
+    steps:
+    - name: 'Set env file'
+      id: envfile
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          echo hml >> ~/run/env
+          cd hml/${{ github.event.repository.name }}
+          touch .env.staging
+          rm -f .env.staging
+
+          echo NODE_ENV=${{ vars.NODE_ENV }} >> .env.staging
+          echo API_PORT=${{ vars.INTERNAL_APP_PORT }} >> .env.staging
+          echo ENABLE_CORS=${{ vars.ENABLE_CORS }} >> .env.staging
+
+          echo DB_TYPE=${{ vars.DB_TYPE }} >> .env.staging
+          echo DB_NAME=${{ vars.DB_NAME }} >> .env.staging
+          echo DB_PORT=${{ vars.DB_PORT }} >> .env.staging
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env.staging
+          echo DB_USER=${{ vars.DB_USER }} >> .env.staging
+          echo DB_HOST=${{ vars.DB_HOST }} >> .env.staging
+          echo DB_SSL=${{ vars.DB_SSL }} >> .env.staging
+
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.staging
+          echo JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }} >> .env.staging
+
+          echo ACCESS_TOKEN_EXPIRATION=${{ vars.ACCESS_TOKEN_EXPIRATION }} >> .env.staging
+          echo REFRESH_TOKEN_EXPIRATION=${{ vars.REFRESH_TOKEN_EXPIRATION }} >> .env.staging
+
+          cat .env.staging
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+    - name: starting server
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker stop containerhml
+          docker rm containerhml
+
+          cd hml/${{ github.event.repository.name }}
+          printf "\n\n starting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
+          docker run -d -p ${{ vars.EXTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerhml --restart=always $(head -1 new_image_id.txt)
+
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+    - name: restart last container
+      uses: fifsky/ssh-action@master
+      if: ${{ failure() }}
+      with:
+          command: |
+            cd hml/${{ github.event.repository.name }}
+
+            printf "\n\n restarting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
+            docker run -d -p ${{ vars.EXTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerhml --restart=always $(head -1 old_image_id.txt)
+
+            docker rmi $(head -1 new_image_id.txt)
+
+          host: ${{ vars.HOST }}
+          user: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SECRET_KEY }}
+
+    - name: clean images
+      uses: fifsky/ssh-action@master
+      if: ${{ success() }}
+      with:
+          command: |
+            cd hml/${{ github.event.repository.name }}
+            docker rmi $(head -1 old_image_id.txt)
+
+          host: ${{ vars.HOST }}
+          user: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SECRET_KEY }}
+
+  deploy-prd:
+    name: deploy-prd
+    needs: deploy-hml
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: http://${{ vars.HOST }}:${{ vars.EXTERNAL_APP_PORT }}/
+    steps:
+    - name: 'Set env file'
+      id: envfile
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          echo prd >> ~/run/env
+          cd prd/${{ github.event.repository.name }}
+          touch .env.production
+          rm -f .env.production
+
+          echo NODE_ENV=${{ vars.NODE_ENV }} >> .env.production
+          echo API_PORT=${{ vars.INTERNAL_APP_PORT }} >> .env.production
+          echo ENABLE_CORS=${{ vars.ENABLE_CORS }} >> .env.production
+
+          echo DB_TYPE=${{ vars.DB_TYPE }} >> .env.production
+          echo DB_NAME=${{ vars.DB_NAME }} >> .env.production
+          echo DB_PORT=${{ vars.DB_PORT }} >> .env.production
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env.production
+          echo DB_USER=${{ vars.DB_USER }} >> .env.production
+          echo DB_HOST=${{ vars.DB_HOST }} >> .env.production
+          echo DB_SSL=${{ vars.DB_SSL }} >> .env.production
+
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.production
+          echo JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }} >> .env.production
+
+          echo ACCESS_TOKEN_EXPIRATION=${{ vars.ACCESS_TOKEN_EXPIRATION }} >> .env.production
+          echo REFRESH_TOKEN_EXPIRATION=${{ vars.REFRESH_TOKEN_EXPIRATION }} >> .env.production
+
+          cat .env.production
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+    - name: building image
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          rm -rf ~/prd/${{ github.event.repository.name }}/
+          cp -r ~/hml/${{ github.event.repository.name }} ~/prd/
+
+          cd ~/prd/${{ github.event.repository.name }}
+          echo "$(docker inspect --format="{{.Image}}" $(docker ps -a --format "table {{.Names}}" | grep containerprd ))" > old_image_id.txt
+          echo "new image: $(head -1 old_image_id.txt)"
+
+          printf "\n\n generating docker image....\n\n "
+          cd ~/prd/${{ github.event.repository.name }}
+          docker build -t ${{ github.event.repository.name }}:prd .
+
+          echo "$(docker images --filter "reference=${{ github.event.repository.name }}:prd" --format {{.ID}})" > new_image_id.txt
+          echo "new image: $(head -1 new_image_id.txt)"
+
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+
+    - name: starting server
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          docker stop containerprd
+          docker rm containerprd
+
+          cd ~/prd/${{ github.event.repository.name }}
+
+          printf "\n\n starting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
+          docker run -d -p ${{ vars.EXTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerprd --restart=always $(head -1 new_image_id.txt)
+
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+
+    - name: restart last container
+      uses: fifsky/ssh-action@master
+      if: ${{ failure() }}
+      with:
+        command: |
+          cd prd/${{ github.event.repository.name }}
+
+          printf "\n\n restarting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
+          docker run -d -p ${{ vars.EXTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerprd --restart=always $(head -1 old_image_id.txt)
+
+          docker rmi $(head -1 new_image_id.txt)
+
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
+
+    - name: clean images
+      uses: fifsky/ssh-action@master
+      if: ${{ success() }}
+      with:
+        command: |
+          cd prd/${{ github.event.repository.name }}
+          docker rmi $(head -1 old_image_id.txt)
+
+        host: ${{ vars.HOST }}
+        user: ${{ vars.SSH_USER }}
+        key: ${{ secrets.SECRET_KEY }}
