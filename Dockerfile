@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install -f --production
+RUN rm -rf node_modules
+
+RUN npm install --omit=dev
 
 COPY . .
 
