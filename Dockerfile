@@ -11,8 +11,8 @@ RUN npm install -f
 COPY . .
 
 FROM nginx as production-stage
-COPY nginx.conf /etc/nginx/nginx.conf
-
 RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD serve -s dist
