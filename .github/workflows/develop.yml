@@ -16,8 +16,10 @@ jobs:
         command: |
           echo dev >> ~/run/env
           cd dev/${{ github.event.repository.name }}
-          touch .env
+
           rm -f .env
+          touch .env
+
           echo APP_PORT=${{ vars.APP_PORT }} >> .env
 
           VUE_APP_ENV=${{ vars.VUE_APP_ENV }} >> .env
