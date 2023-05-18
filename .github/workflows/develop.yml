@@ -20,13 +20,12 @@ jobs:
           rm -f .env
           touch .env
 
-          echo APP_PORT=${{ vars.APP_PORT }} >> .env
-
-          VUE_APP_ENV=${{ vars.VUE_APP_ENV }} >> .env
-          VUE_APP_API_URL=${{ vars.VUE_APP_API_URL }} >> .env
-          VUE_APP_BASE_URL=${{ vars.VUE_APP_BASE_URL }} >> .env
-          VUE_APP_I18N_LOCALE=${{ vars.VUE_APP_I18N_LOCALE }} >> .env
-          VUE_APP_I18N_FALLBACK_LOCALE=${{ vars.VUE_APP_I18N_FALLBACK_LOCALE }} >> .env
+          echo INTERNAL_APP_PORT=${{ vars.INTERNAL_APP_PORT }} >> .env
+          echo VUE_APP_ENV=${{ vars.VUE_APP_ENV }} >> .env
+          echo VUE_APP_API_URL=${{ vars.VUE_APP_API_URL }} >> .env
+          echo VUE_APP_BASE_URL=${{ vars.VUE_APP_BASE_URL }} >> .env
+          echo VUE_APP_I18N_LOCALE=${{ vars.VUE_APP_I18N_LOCALE }} >> .env
+          echo VUE_APP_I18N_FALLBACK_LOCALE=${{ vars.VUE_APP_I18N_FALLBACK_LOCALE }} >> .env
 
           cat .env
         host: ${{ vars.HOST }}
