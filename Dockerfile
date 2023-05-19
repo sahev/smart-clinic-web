@@ -6,9 +6,7 @@ COPY package*.json ./
 
 RUN npm install -f
 
-COPY . .
-
-EXPOSE 81
+COPY ./ .
 
 FROM nginx as production-stage
 RUN mkdir /app
