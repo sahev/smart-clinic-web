@@ -619,13 +619,13 @@ const pluginsChildRoute = (prop, mode = false) => [
   {
     path: 'datepicker',
     name: prop + '.datepicker',
-    meta: { dark: mode, auth: true, name: 'Datepicker' },
+    meta: { dark: mode, auth: false, name: 'Datepicker' },
     component: DatepickerDemo
   },
   {
     path: 'select',
     name: prop + '.select',
-    meta: { dark: mode, auth: true, name: 'Select' },
+    meta: { dark: mode, auth: false, name: 'Select' },
     component: SelectDemo
   },
   {
@@ -637,7 +637,7 @@ const pluginsChildRoute = (prop, mode = false) => [
   {
     path: 'treeview',
     name: prop + '.treeview',
-    meta: { dark: mode, auth: true, name: 'Tree View' },
+    meta: { dark: mode, auth: false, name: 'Tree View' },
     component: AppTreeView
   }
 ]
