@@ -89,7 +89,7 @@ jobs:
           docker rm containerdev
 
           printf "\n\n starting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
-          docker run -d -p ${{ vars.INTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerdev --restart=always $(head -1 new_image_id.txt)
+          docker run -d -p ${{ vars.INTERNAL_APP_PORT }}:80 --name containerdev --restart=always $(head -1 new_image_id.txt)
 
         host: ${{ vars.HOST }}
         user: ${{ vars.SSH_USER }}
@@ -104,7 +104,7 @@ jobs:
           cd dev/${{ github.event.repository.name }}
 
           printf "\n\n restarting docker server on port ${{ vars.INTERNAL_APP_PORT }} ....\n\n "
-          docker run -d -p ${{ vars.INTERNAL_APP_PORT }}:${{ vars.INTERNAL_APP_PORT }} --name containerdev --restart=always $(head -1 old_image_id.txt)
+          docker run -d -p ${{ vars.INTERNAL_APP_PORT }}:80 --name containerdev --restart=always $(head -1 old_image_id.txt)
 
           docker rmi $(head -1 new_image_id.txt)
 
