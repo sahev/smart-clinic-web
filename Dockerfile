@@ -8,6 +8,9 @@ RUN npm ci
 
 COPY . .
 
+RUN NODE_OPTIONS="--max-old-space-size=1024"
+
+RUN npm run build; exit 0
 RUN npm run build
 
 FROM nginx as production-stage
