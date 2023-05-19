@@ -8,6 +8,8 @@ RUN npm install -f
 
 COPY . .
 
+EXPOSE 81
+
 FROM nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/dist /app
