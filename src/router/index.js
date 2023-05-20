@@ -3,113 +3,113 @@ import VueRouter from 'vue-router'
 import store from '../store'
 
 /* Public Web */
-import PublicHome from '../WebSite/views/Home/Home.vue'
+const PublicHome = () => import('../WebSite/views/Home/Home.vue')
 
 /* Layouts */
-import Layout1 from '../layouts/Layout1'
-import Default from '../layouts/BlankLayout'
-import AuthLayout1 from '../layouts/AuthLayouts/AuthLayout1'
+const Layout1 = () => import('../layouts/Layout1')
+const Default = () => import( '../layouts/BlankLayout')
+const AuthLayout1 = () => import( '../layouts/AuthLayouts/AuthLayout1')
 
 /* Dashboards View */
-import Dashboard2 from '../views/Dashboards/Dashboard2.vue'
-import Dashboard1 from '../views/Dashboards/Dashboard1.vue'
-import Dashboard3 from '../views/Dashboards/Dashboard3'
-import Dashboard4 from '../views/Dashboards/Dashboard4'
-import Dashboard5 from '../views/Dashboards/Dashboard5'
+const Dashboard2 = () => import('../views/Dashboards/Dashboard2.vue')
+const Dashboard1 = () => import('../views/Dashboards/Dashboard1.vue')
+const Dashboard3 = () => import('../views/Dashboards/Dashboard3')
+const Dashboard4 = () => import('../views/Dashboards/Dashboard4')
+const Dashboard5 = () => import('../views/Dashboards/Dashboard5')
 /* UIElements View */
-import Settings from '../views/Settings/Settings.vue'
-import SuperDashboard from '../views/Super/Dashboard.vue'
-import SuperUsers from '../views/Super/Users.vue'
-import SuperClinics from '../views/Super/Clinics.vue'
-import UiAlerts from '../views/core/UiAlerts.vue'
-import UiButtons from '../views/core/UiButtons.vue'
-import UiBadges from '../views/core/UiBadges.vue'
-import UiBreadcrumb from '../views/core/UiBreadcrumb.vue'
-import UiColors from '../views/core/UiColors.vue'
-import UiTypography from '../views/core/UiTypography.vue'
-import UiCards from '../views/core/UiCards.vue'
-import UiCarousel from '../views/core/UiCarousel.vue'
-import UiEmbedVideo from '../views/core/UiEmbedVideo.vue'
-import UiGrid from '../views/core/UiGrid.vue'
-import UiModal from '../views/core/UiModal.vue'
-import UiListGroup from '../views/core/UiListGroup.vue'
-import UiImages from '../views/core/UiImages.vue'
-import UiMediaObject from '../views/core/UiMediaObject.vue'
-import UiTooltips from '../views/core/UiTooltips.vue'
-import UiPopovers from '../views/core/UiPopovers.vue'
-import UiNotifications from '../views/core/UiNotifications.vue'
-import UiTabs from '../views/core/UiTabs.vue'
-import UiPagination from '../views/core/UiPagination.vue'
-import UiProgressBars from '../views/core/UiProgressBars.vue'
+const Settings = () => import('../views/Settings/Settings.vue')
+const SuperDashboard = () => import('../views/Super/Dashboard.vue')
+const SuperUsers = () => import('../views/Super/Users.vue')
+const SuperClinics = () => import('../views/Super/Clinics.vue')
+const UiAlerts = () => import('../views/core/UiAlerts.vue')
+const UiButtons = () => import('../views/core/UiButtons.vue')
+const UiBadges = () => import('../views/core/UiBadges.vue')
+const UiBreadcrumb = () => import('../views/core/UiBreadcrumb.vue')
+const UiColors = () => import('../views/core/UiColors.vue')
+const UiTypography = () => import('../views/core/UiTypography.vue')
+const UiCards = () => import('../views/core/UiCards.vue')
+const UiCarousel = () => import('../views/core/UiCarousel.vue')
+const UiEmbedVideo = () => import('../views/core/UiEmbedVideo.vue')
+const UiGrid = () => import('../views/core/UiGrid.vue')
+const UiModal = () => import('../views/core/UiModal.vue')
+const UiListGroup = () => import('../views/core/UiListGroup.vue')
+const UiImages = () => import('../views/core/UiImages.vue')
+const UiMediaObject = () => import('../views/core/UiMediaObject.vue')
+const UiTooltips = () => import('../views/core/UiTooltips.vue')
+const UiPopovers = () => import('../views/core/UiPopovers.vue')
+const UiNotifications = () => import('../views/core/UiNotifications.vue')
+const UiTabs = () => import('../views/core/UiTabs.vue')
+const UiPagination = () => import('../views/core/UiPagination.vue')
+const UiProgressBars = () => import('../views/core/UiProgressBars.vue')
 /* Authentic View */
-import SignIn1 from '../views/AuthPages/Default/SignIn1'
-import SignUp1 from '../views/AuthPages/Default/SignUp1'
-import ClinicSignUp from '../views/AuthPages/Default/ClinicSignUp'
-import DetailsClinicSignUp from '../views/AuthPages/Default/DetailsClinicSignUp'
-import RecoverPassword1 from '../views/AuthPages/Default/RecoverPassword1'
-import LockScreen1 from '../views/AuthPages/Default/LockScreen1'
-import ConfirmMail1 from '../views/AuthPages/Default/ConfirmMail1'
+const SignIn1 = () => import('../views/AuthPages/Default/SignIn1')
+const SignUp1 = () => import('../views/AuthPages/Default/SignUp1')
+const ClinicSignUp = () => import('../views/AuthPages/Default/ClinicSignUp')
+const DetailsClinicSignUp = () => import('../views/AuthPages/Default/DetailsClinicSignUp')
+const RecoverPassword1 = () => import('../views/AuthPages/Default/RecoverPassword1')
+const LockScreen1 = () => import('../views/AuthPages/Default/LockScreen1')
+const ConfirmMail1 = () => import('../views/AuthPages/Default/ConfirmMail1')
 /* Extra Pages */
-import ErrorPage from '../views/Pages/ErrorPage'
-import ComingSoon from '../views/Pages/ComingSoon'
-import Maintenance from '../views/Pages/Maintenance'
-import TimeLine from '../views/Pages/TimeLines'
-import Pricing from '../views/Pages/Pricing'
-import Pricing1 from '../views/Pages/Pricing1'
-import BlankPage from '../views/Pages/BlankPage'
-import FAQ from '../views/Pages/FAQ'
-import Invoice from '../views/Pages/Invoice'
+const ErrorPage = () => import('../views/Pages/ErrorPage')
+const ComingSoon = () => import('../views/Pages/ComingSoon')
+const Maintenance = () => import('../views/Pages/Maintenance')
+const TimeLine = () => import('../views/Pages/TimeLines')
+const Pricing = () => import('../views/Pages/Pricing')
+const Pricing1 = () => import('../views/Pages/Pricing1')
+const BlankPage = () => import('../views/Pages/BlankPage')
+const FAQ = () => import('../views/Pages/FAQ')
+const Invoice = () => import('../views/Pages/Invoice')
 /* Apps Views */
-import EmailListing from '../views/Apps/Email/EmailListing'
-import EmailCompose from '../views/Apps/Email/EmailCompose'
-import Calendar from '../views/Apps/Calendar/Calendar'
-import ChatIndex from '../views/Apps/Chat/Index'
+const EmailListing = () => import('../views/Apps/Email/EmailListing')
+const EmailCompose = () => import('../views/Apps/Email/EmailCompose')
+const Calendar = () => import('../views/Apps/Calendar/Calendar')
+const ChatIndex = () => import('../views/Apps/Chat/Index')
 /* Icon Views */
-import IconDripicons from '../views/Icons/IconDripicons'
-import IconFontawesome5 from '../views/Icons/IconFontawesome5'
-import IconLineAwesome from '../views/Icons/IconLineAwesome'
-import IconRemixicon from '../views/Icons/IconRemixicon'
-import IconUnicons from '../views/Icons/IconUnicons'
+const IconDripicons = () => import('../views/Icons/IconDripicons')
+const IconFontawesome5 = () => import('../views/Icons/IconFontawesome5')
+const IconLineAwesome = () => import('../views/Icons/IconLineAwesome')
+const IconRemixicon = () => import('../views/Icons/IconRemixicon')
+const IconUnicons = () => import('../views/Icons/IconUnicons')
 /* Tables Views */
-import TablesBasic from '../views/Tables/TablesBasic'
-import DataTable from '../views/Tables/DataTable'
-import EditableTable from '../views/Tables/EditableTable'
-import ApexCharts from '../views/Charts/ApexCharts'
-import AmCharts from '../views/Charts/AmCharts'
-import MorrisCharts from '../views/Charts/MorrisCharts'
-import HighCharts from '../views/Charts/HighCharts'
-import GoogleMaps from '../views/Maps/GoogleMaps'
-import VectorMaps from '../views/Maps/VectorMaps'
+const DataTable = () => import('../views/Tables/DataTable')
+const TablesBasic = () => import('../views/Tables/TablesBasic')
+const EditableTable = () => import('../views/Tables/EditableTable')
+const ApexCharts = () => import('../views/Charts/ApexCharts')
+const AmCharts = () => import('../views/Charts/AmCharts')
+const MorrisCharts = () => import('../views/Charts/MorrisCharts')
+const HighCharts = () => import('../views/Charts/HighCharts')
+const GoogleMaps = () => import('../views/Maps/GoogleMaps')
+const VectorMaps = () => import('../views/Maps/VectorMaps')
 /* Form View */
-import FormLayout from '../views/Forms/FormLayout'
-import FormValidates from '../views/Forms/FormValidates'
-import FormSwitches from '../views/Forms/FormSwitches'
-import FormRadios from '../views/Forms/FormRadios'
-import FormCheckboxes from '../views/Forms/FormCheckboxes'
+const FormLayout = () => import('../views/Forms/FormLayout')
+const FormValidates = () => import('../views/Forms/FormValidates')
+const FormSwitches = () => import('../views/Forms/FormSwitches')
+const FormRadios = () => import('../views/Forms/FormRadios')
+const FormCheckboxes = () => import('../views/Forms/FormCheckboxes')
 
 /* Doctor CRUD */
-import DoctorProfile from '../views/Users/Doctors/DoctorProfile.vue'
-import DoctorProfileEdit from '../views/Users/Doctors/DoctorProfileEdit.vue'
+const DoctorProfile = () => import('../views/Users/Doctors/DoctorProfile.vue')
+const DoctorProfileEdit = () => import('../views/Users/Doctors/DoctorProfileEdit.vue')
 
 /* Staff CRUD */
-import StaffProfile from '../views/Users/Staffs/StaffProfile.vue'
-import StaffProfileEdit from '../views/Users/Staffs/StaffProfileEdit.vue'
+const StaffProfile = () => import('../views/Users/Staffs/StaffProfile.vue')
+const StaffProfileEdit = () => import('../views/Users/Staffs/StaffProfileEdit.vue')
 
 /* Patients CRUD */
-import PatientProfile from '../views/Users/Patients/PatientProfile.vue'
-import PatientProfileEdit from '../views/Users/Patients/PatientProfileEdit.vue'
-import PatientList from '../views/Users/Patients/PatientList.vue'
+const PatientProfile = () => import('../views/Users/Patients/PatientProfile.vue')
+const PatientProfileEdit = () => import('../views/Users/Patients/PatientProfileEdit.vue')
+const PatientList = () => import('../views/Users/Patients/PatientList.vue')
 
 /* User View */
-import AddUser from '../views/Users/AddUser'
-import UserList from '../views/Users/UserList'
+const AddUser = () => import('../views/Users/AddUser')
+const UserList = () => import('../views/Users/UserList')
 /* Todo */
-import Callback from '../views/AuthPages/Default/Callback'
+const Callback = () => import('../views/AuthPages/Default/Callback')
 /* Plugins Views */
-import DatepickerDemo from '../views/Plugins/DatepickerDemo'
-import SelectDemo from '../views/Plugins/SelectDemo'
-import DragDropDemo from '../views/Plugins/DragDropDemo'
-import AppTreeView from '../views/Plugins/AppTreeView'
+const DatepickerDemo = () => import('../views/Plugins/DatepickerDemo')
+const SelectDemo = () => import('../views/Plugins/SelectDemo')
+const DragDropDemo = () => import('../views/Plugins/DragDropDemo')
+const AppTreeView = () => import('../views/Plugins/AppTreeView')
 
 Vue.use(VueRouter)
 

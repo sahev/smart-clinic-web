@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   publicPath: process.env.VUE_APP_ENV === 'production'
@@ -7,8 +8,10 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
-        mapboxgl: 'mapbox-gl'
-      })
+        mapboxgl: 'mapbox-gl',
+
+      }),
+      new BundleAnalyzerPlugin()
     ]
   },
 
