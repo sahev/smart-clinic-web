@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install popper.js@1.16.1 -g
+RUN npm install popper.js@1.16.1
 
-RUN npm install core-js@2.5.7 -g
+RUN npm install core-js@2.5.7
 
 RUN npm install -f
 
