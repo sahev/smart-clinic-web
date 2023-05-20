@@ -1,5 +1,6 @@
 .DS_Store
 .idea/*
+dist
 
 # local .env files
 .env.local

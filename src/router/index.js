@@ -832,9 +832,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let isLoggedIn = store.getters['Auth/isLoggedIn']
+  let pageMustBeAuth = to.meta.auth
   // var domains = window.location.hostname.split('.')
   // let isSubdomainApp = domains[0] === 'app'
-  let pageMustBeAuth = to.meta.auth
 
   if (isLoggedIn && pageMustBeAuth) {
     next()
