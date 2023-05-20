@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   publicPath: process.env.VUE_APP_ENV === 'production'
@@ -11,7 +12,15 @@ module.exports = {
         mapboxgl: 'mapbox-gl',
 
       }),
-      new BundleAnalyzerPlugin()
+      new BundleAnalyzerPlugin(),
+      new CompressionPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        // test: /\.(js|css)$/,
+        test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+        threshold: 10240,
+        minRatio: 0.8
+      })
     ]
   },
 
@@ -21,7 +30,7 @@ module.exports = {
       fallbackLocale: 'en',
       localeDir: 'locales',
       enableInSFC: false
-    }
+    },
   },
   devServer: {
     disableHostCheck: true,

@@ -111,16 +111,3 @@ jobs:
         host: ${{ vars.HOST }}
         user: ${{ vars.SSH_USER }}
         key: ${{ secrets.SECRET_KEY }}
-
-    - name: clean images
-      uses: fifsky/ssh-action@master
-
-      if: ${{ success() }}
-      with:
-        command: |
-          cd dev/${{ github.event.repository.name }}
-          docker rmi $(head -1 old_image_id.txt)
-
-        host: ${{ vars.HOST }}
-        user: ${{ vars.SSH_USER }}
-        key: ${{ secrets.SECRET_KEY }}
