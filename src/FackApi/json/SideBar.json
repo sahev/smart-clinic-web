@@ -245,38 +245,6 @@
     ]
   },
   {
-    "title": "Components",
-    "name": "sidebar.components",
-    "is_heading": true,
-    "is_active": false,
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": ""
-  },
-  {
-    "title": "Charts",
-    "name": "sidebar.charts",
-    "is_heading": false,
-    "is_active": false,
-    "link": "",
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "ri-bar-chart-2-fill",
-    "children": [
-      {
-        "title": "High Charts",
-        "name": "sidebar.highChart",
-        "is_active": false,
-        "link": {
-          "name": "chart.high"
-        },
-        "class_name": "",
-        "is_icon_class": true,
-        "icon": "ri-bar-chart-line"
-      }
-    ]
-  },
-  {
     "title": "Pages",
     "name": "sidebar.pages",
     "is_heading": true,

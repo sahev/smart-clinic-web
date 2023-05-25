@@ -371,13 +371,6 @@ const routes = [
     children: childRoutes('dashboard')
   },
   {
-    path: '/chart',
-    name: 'chart',
-    component: Layout1,
-    meta: { auth: true },
-    children: chartChildRoutes('chart')
-  },
-  {
     path: '/auth',
     name: 'auth1',
     component: AuthLayout1,
