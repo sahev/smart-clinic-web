@@ -1,16 +1,11 @@
 import Vue from 'vue'
-import '@babel/polyfill'
-import 'mutationobserver-shim'
-import './Utils/fliter'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Raphael from 'raphael/raphael'
 import './plugins'
 import './registerServiceWorker'
 import i18n from './i18n'
 
-global.Raphael = Raphael
 Vue.config.productionTip = false
 
 let vm = new Vue({

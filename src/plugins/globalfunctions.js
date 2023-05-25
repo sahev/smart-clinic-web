@@ -31,7 +31,6 @@ Vue.mixin({
       })
     },
     isSuccess (data) {
-      console.log(data, data.statusCode, 'is success')
       if (data.statusCode) {
         return false
       }

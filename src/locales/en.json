@@ -1,8 +1,8 @@
 {
   "sidebar": {
     "dashboard": "Dashboard",
-    "dashboard1": "Doctor Dashboard",
-    "dashboard2": "Hospital Dashboard 1",
+    "doctorDashboard": "Doctor Dashboard",
+    "clinicDashboard": "Clinic Dashboard",
     "dashboard3": "Hospital Dashboard 2",
     "dashboard4": "Patient Dashboard",
     "app": "App",

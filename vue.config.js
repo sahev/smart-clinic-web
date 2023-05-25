@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
         mapboxgl: 'mapbox-gl',
 
       }),
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       new CompressionPlugin({
         filename: '[path].gz[query]',
         algorithm: 'gzip',

@@ -13,34 +13,13 @@ const AuthLayout1 = () => import( '../layouts/AuthLayouts/AuthLayout1')
 /* Dashboards View */
 const Dashboard2 = () => import('../views/Dashboards/Dashboard2.vue')
 const Dashboard1 = () => import('../views/Dashboards/Dashboard1.vue')
-const Dashboard3 = () => import('../views/Dashboards/Dashboard3')
-const Dashboard4 = () => import('../views/Dashboards/Dashboard4')
-const Dashboard5 = () => import('../views/Dashboards/Dashboard5')
+
 /* UIElements View */
 const Settings = () => import('../views/Settings/Settings.vue')
 const SuperDashboard = () => import('../views/Super/Dashboard.vue')
 const SuperUsers = () => import('../views/Super/Users.vue')
 const SuperClinics = () => import('../views/Super/Clinics.vue')
-const UiAlerts = () => import('../views/core/UiAlerts.vue')
-const UiButtons = () => import('../views/core/UiButtons.vue')
-const UiBadges = () => import('../views/core/UiBadges.vue')
-const UiBreadcrumb = () => import('../views/core/UiBreadcrumb.vue')
-const UiColors = () => import('../views/core/UiColors.vue')
-const UiTypography = () => import('../views/core/UiTypography.vue')
-const UiCards = () => import('../views/core/UiCards.vue')
-const UiCarousel = () => import('../views/core/UiCarousel.vue')
-const UiEmbedVideo = () => import('../views/core/UiEmbedVideo.vue')
-const UiGrid = () => import('../views/core/UiGrid.vue')
-const UiModal = () => import('../views/core/UiModal.vue')
-const UiListGroup = () => import('../views/core/UiListGroup.vue')
-const UiImages = () => import('../views/core/UiImages.vue')
-const UiMediaObject = () => import('../views/core/UiMediaObject.vue')
-const UiTooltips = () => import('../views/core/UiTooltips.vue')
-const UiPopovers = () => import('../views/core/UiPopovers.vue')
-const UiNotifications = () => import('../views/core/UiNotifications.vue')
-const UiTabs = () => import('../views/core/UiTabs.vue')
-const UiPagination = () => import('../views/core/UiPagination.vue')
-const UiProgressBars = () => import('../views/core/UiProgressBars.vue')
+
 /* Authentic View */
 const SignIn1 = () => import('../views/AuthPages/Default/SignIn1')
 const SignUp1 = () => import('../views/AuthPages/Default/SignUp1')
@@ -49,6 +28,7 @@ const DetailsClinicSignUp = () => import('../views/AuthPages/Default/DetailsClin
 const RecoverPassword1 = () => import('../views/AuthPages/Default/RecoverPassword1')
 const LockScreen1 = () => import('../views/AuthPages/Default/LockScreen1')
 const ConfirmMail1 = () => import('../views/AuthPages/Default/ConfirmMail1')
+
 /* Extra Pages */
 const ErrorPage = () => import('../views/Pages/ErrorPage')
 const ComingSoon = () => import('../views/Pages/ComingSoon')
@@ -59,33 +39,12 @@ const Pricing1 = () => import('../views/Pages/Pricing1')
 const BlankPage = () => import('../views/Pages/BlankPage')
 const FAQ = () => import('../views/Pages/FAQ')
 const Invoice = () => import('../views/Pages/Invoice')
+
 /* Apps Views */
 const EmailListing = () => import('../views/Apps/Email/EmailListing')
 const EmailCompose = () => import('../views/Apps/Email/EmailCompose')
 const Calendar = () => import('../views/Apps/Calendar/Calendar')
 const ChatIndex = () => import('../views/Apps/Chat/Index')
-/* Icon Views */
-const IconDripicons = () => import('../views/Icons/IconDripicons')
-const IconFontawesome5 = () => import('../views/Icons/IconFontawesome5')
-const IconLineAwesome = () => import('../views/Icons/IconLineAwesome')
-const IconRemixicon = () => import('../views/Icons/IconRemixicon')
-const IconUnicons = () => import('../views/Icons/IconUnicons')
-/* Tables Views */
-const DataTable = () => import('../views/Tables/DataTable')
-const TablesBasic = () => import('../views/Tables/TablesBasic')
-const EditableTable = () => import('../views/Tables/EditableTable')
-const ApexCharts = () => import('../views/Charts/ApexCharts')
-const AmCharts = () => import('../views/Charts/AmCharts')
-const MorrisCharts = () => import('../views/Charts/MorrisCharts')
-const HighCharts = () => import('../views/Charts/HighCharts')
-const GoogleMaps = () => import('../views/Maps/GoogleMaps')
-const VectorMaps = () => import('../views/Maps/VectorMaps')
-/* Form View */
-const FormLayout = () => import('../views/Forms/FormLayout')
-const FormValidates = () => import('../views/Forms/FormValidates')
-const FormSwitches = () => import('../views/Forms/FormSwitches')
-const FormRadios = () => import('../views/Forms/FormRadios')
-const FormCheckboxes = () => import('../views/Forms/FormCheckboxes')
 
 /* Doctor CRUD */
 const DoctorProfile = () => import('../views/Users/Doctors/DoctorProfile.vue')
@@ -105,286 +64,21 @@ const AddUser = () => import('../views/Users/AddUser')
 const UserList = () => import('../views/Users/UserList')
 /* Todo */
 const Callback = () => import('../views/AuthPages/Default/Callback')
-/* Plugins Views */
-const DatepickerDemo = () => import('../views/Plugins/DatepickerDemo')
-const SelectDemo = () => import('../views/Plugins/SelectDemo')
-const DragDropDemo = () => import('../views/Plugins/DragDropDemo')
-const AppTreeView = () => import('../views/Plugins/AppTreeView')
 
 Vue.use(VueRouter)
 
 const childRoutes = (prop, mode) => [
   {
-    path: 'home-1',
+    path: '/',
     name: prop + '.home-1',
     meta: { dark: mode, auth: true, name: 'Home 1' },
     component: Dashboard1
-  },
-  {
-    path: 'drag',
-    name: prop + '.home-1',
-    meta: { dark: mode, name: 'Home 1' },
-    component: DragDropDemo
   },
   {
     path: 'home-2',
     name: prop + '.home-2',
     meta: { dark: mode, auth: true, name: 'Home 2' },
     component: Dashboard2
-  },
-  {
-    path: 'home-3',
-    name: prop + '.home-3',
-    meta: { dark: mode, auth: true, name: 'Home 3' },
-    component: Dashboard3
-  },
-  {
-    path: 'home-5',
-    name: prop + '.home-5',
-    meta: { dark: mode, auth: true, name: 'Home 5' },
-    component: Dashboard5
-  },
-  {
-    path: '/',
-    name: prop + '.home-4',
-    meta: { dark: mode, auth: true, name: 'Home 4' },
-    component: Dashboard4
-  }
-]
-
-const coreChildRoute = (prop, mode) => [
-  {
-    path: 'ui-colors',
-    name: prop + '.color',
-    meta: { dark: mode, auth: true, name: 'Colors' },
-    component: UiColors
-  },
-  {
-    path: 'ui-typography',
-    name: prop + '.typography',
-    meta: { dark: mode, auth: true, name: 'Typography' },
-    component: UiTypography
-  },
-  {
-    path: 'ui-alerts',
-    name: prop + '.alert',
-    meta: { dark: mode, auth: true, name: 'Alert' },
-    component: UiAlerts
-  },
-  {
-    path: 'ui-buttons',
-    name: prop + '.button',
-    meta: { dark: mode, auth: true, name: 'Button' },
-    component: UiButtons
-  },
-  {
-    path: 'ui-breadcrumb',
-    name: prop + '.breadcrumb',
-    meta: { dark: mode, auth: true, name: 'Breadcrumb' },
-    component: UiBreadcrumb
-  },
-  {
-    path: 'ui-badges',
-    name: prop + '.badges',
-    meta: { dark: mode, auth: true, name: 'Badges' },
-    component: UiBadges
-  },
-  {
-    path: 'ui-cards',
-    name: prop + '.cards',
-    meta: { dark: mode, auth: true, name: 'Card' },
-    component: UiCards
-  },
-  {
-    path: 'ui-carousel',
-    name: prop + '.carousel',
-    meta: { dark: mode, auth: true, name: 'Carousel' },
-    component: UiCarousel
-  },
-  {
-    path: 'ui-grid',
-    name: prop + '.grid',
-    meta: { dark: mode, auth: true, name: 'Grid' },
-    component: UiGrid
-  },
-  {
-    path: 'ui-embed-video',
-    name: prop + '.embed-video',
-    meta: { dark: mode, auth: true, name: 'Embed Video' },
-    component: UiEmbedVideo
-  },
-  {
-    path: 'ui-modal',
-    name: prop + '.modal',
-    meta: { dark: mode, auth: true, name: 'Model' },
-    component: UiModal
-  },
-  {
-    path: 'ui-listgroup',
-    name: prop + '.listgroup',
-    meta: { dark: mode, auth: true, name: 'List Group' },
-    component: UiListGroup
-  },
-  {
-    path: 'ui-images',
-    name: prop + '.images',
-    meta: { dark: mode, auth: true, name: 'Image' },
-    component: UiImages
-  },
-  {
-    path: 'ui-media-object',
-    name: prop + '.media-object',
-    meta: { dark: mode, auth: true, name: 'Media Object' },
-    component: UiMediaObject
-  },
-  {
-    path: 'ui-pagination',
-    name: prop + '.pagination',
-    meta: { dark: mode, auth: true, name: 'Paginations' },
-    component: UiPagination
-  },
-  {
-    path: 'ui-progressbars',
-    name: prop + '.progressbars',
-    meta: { dark: mode, auth: true, name: 'Progressbar' },
-    component: UiProgressBars
-  },
-  {
-    path: 'ui-tooltips',
-    name: prop + '.tooltips',
-    meta: { dark: mode, auth: true, name: 'Tooltip' },
-    component: UiTooltips
-  },
-  {
-    path: 'ui-popovers',
-    name: prop + '.popovers',
-    meta: { dark: mode, auth: true, name: 'Popover' },
-    component: UiPopovers
-  },
-  {
-    path: 'ui-notifications',
-    name: prop + '.notifications',
-    meta: { dark: mode, auth: true, name: 'Notification' },
-    component: UiNotifications
-  },
-  {
-    path: 'ui-tabs',
-    name: prop + '.tabs',
-    meta: { dark: mode, auth: true, name: 'Tabs' },
-    component: UiTabs
-  }
-]
-const formChildRoute = (prop, mode = false) => [
-  {
-    path: 'form-layout',
-    name: prop + '.layout',
-    meta: { dark: mode, auth: true, name: 'Layout' },
-    component: FormLayout
-  },
-  {
-    path: 'form-validate',
-    name: prop + '.validate',
-    meta: { dark: mode, auth: true, name: 'Validate' },
-    component: FormValidates
-  },
-  {
-    path: 'form-switches',
-    name: prop + '.switch',
-    meta: { dark: mode, auth: true, name: 'Switch' },
-    component: FormSwitches
-  },
-  {
-    path: 'form-radios',
-    name: prop + '.radio',
-    meta: { dark: mode, auth: true, name: 'Radio' },
-    component: FormRadios
-  },
-  {
-    path: 'form-checkboxes',
-    name: prop + '.checkbox',
-    meta: { dark: mode, auth: true, name: 'Checkbox' },
-    component: FormCheckboxes
-  }
-]
-
-const tableChildRoute = (prop, mode = false) => [
-  {
-    path: 'tables-basic',
-    name: prop + '.basic',
-    meta: { dark: mode, auth: true, name: 'Basic' },
-    component: TablesBasic
-  },
-  {
-    path: 'data-table',
-    name: prop + '.dataTable',
-    meta: { dark: mode, auth: true, name: 'Datatable' },
-    component: DataTable
-  },
-  {
-    path: 'editable',
-    name: prop + '.editable',
-    meta: { dark: mode, auth: true, name: 'Editable' },
-    component: EditableTable
-  }
-]
-
-const iconChildRoute = (prop, mode = false) => [
-  {
-    path: 'dripicons',
-    name: prop + '.dripicons',
-    meta: { dark: mode, auth: true, name: 'Dripicons' },
-    component: IconDripicons
-  },
-  {
-    path: 'fontawesome-5',
-    name: prop + '.fontawesome-5',
-    meta: { dark: mode, auth: true, name: 'Font Awsome' },
-    component: IconFontawesome5
-  },
-  {
-    path: 'lineawesome',
-    name: prop + '.lineawesome',
-    meta: { dark: mode, auth: true, name: 'Line Awsome' },
-    component: IconLineAwesome
-  },
-  {
-    path: 'remixicon',
-    name: prop + '.remixicon',
-    meta: { dark: mode, auth: true, name: 'Remixicon' },
-    component: IconRemixicon
-  },
-  {
-    path: 'unicons',
-    name: prop + '.unicons',
-    meta: { dark: mode, auth: true, name: 'Unicon' },
-    component: IconUnicons
-  }
-]
-
-const chartChildRoutes = (prop, mode = false) => [
-  {
-    path: 'apex-charts',
-    name: prop + '.apex',
-    meta: { dark: mode, auth: true, name: 'Apex Chat' },
-    component: ApexCharts
-  },
-  {
-    path: 'am-charts',
-    name: prop + '.am',
-    meta: { dark: mode, auth: true, name: 'Am Chart' },
-    component: AmCharts
-  },
-  {
-    path: 'high-charts',
-    name: prop + '.high',
-    meta: { dark: mode, auth: true, name: 'High Chart' },
-    component: HighCharts
-  },
-  {
-    path: 'morris-charts',
-    name: prop + '.morris',
-    meta: { dark: mode, auth: true, name: 'Mirris Chart' },
-    component: MorrisCharts
   }
 ]
 
@@ -457,21 +151,6 @@ const authChildRoutes = (prop, mode = false) => [
     name: prop + '.confirm-mail1',
     meta: { dark: mode, auth: false },
     component: ConfirmMail1
-  }
-]
-
-const mapChildRoute = (prop, mode = false) => [
-  {
-    path: 'google-maps',
-    name: prop + '.google',
-    meta: { dark: mode, auth: true, name: 'Google map' },
-    component: GoogleMaps
-  },
-  {
-    path: 'vector-maps',
-    name: prop + '.vector',
-    meta: { dark: mode, auth: true, name: 'Vector Detail' },
-    component: VectorMaps
   }
 ]
 
@@ -615,33 +294,6 @@ const patientChildRoute = (prop, mode = false) => [
   }
 ]
 
-const pluginsChildRoute = (prop, mode = false) => [
-  {
-    path: 'datepicker',
-    name: prop + '.datepicker',
-    meta: { dark: mode, auth: false, name: 'Datepicker' },
-    component: DatepickerDemo
-  },
-  {
-    path: 'select',
-    name: prop + '.select',
-    meta: { dark: mode, auth: false, name: 'Select' },
-    component: SelectDemo
-  },
-  {
-    path: 'draggable',
-    name: prop + '.draggable',
-    meta: { dark: mode, auth: false, name: 'Draggable' },
-    component: DragDropDemo
-  },
-  {
-    path: 'treeview',
-    name: prop + '.treeview',
-    meta: { dark: mode, auth: false, name: 'Tree View' },
-    component: AppTreeView
-  }
-]
-
 const superChildRoute = (prop, mode = false) => [
   {
     path: 'dashboard',
@@ -719,32 +371,11 @@ const routes = [
     children: childRoutes('dashboard')
   },
   {
-    path: '/core',
-    name: 'core',
-    component: Layout1,
-    meta: { auth: true },
-    children: coreChildRoute('core')
-  },
-  {
-    path: '/table',
-    name: 'table',
-    component: Layout1,
-    meta: { auth: true },
-    children: tableChildRoute('table')
-  },
-  {
     path: '/chart',
     name: 'chart',
     component: Layout1,
     meta: { auth: true },
     children: chartChildRoutes('chart')
-  },
-  {
-    path: '/icon',
-    name: 'icon',
-    component: Layout1,
-    meta: { auth: true },
-    children: iconChildRoute('icon')
   },
   {
     path: '/auth',
@@ -794,27 +425,6 @@ const routes = [
     component: Layout1,
     meta: { auth: true },
     children: patientChildRoute('patients')
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: Layout1,
-    meta: { auth: true },
-    children: mapChildRoute('map')
-  },
-  {
-    path: '/form',
-    name: 'form',
-    component: Layout1,
-    meta: { auth: true },
-    children: formChildRoute('form')
-  },
-  {
-    path: '/plugins',
-    name: 'plugins',
-    component: Layout1,
-    meta: { auth: false },
-    children: pluginsChildRoute('plugins')
   },
   {
     path: '/callback',
