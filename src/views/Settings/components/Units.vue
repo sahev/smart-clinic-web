@@ -4,14 +4,14 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">{{ $t('settings.units.title') }}</h4>
+            <h4 class="card-title">{{ $t('settings.unitTab.units.title') }}</h4>
           </template>
           <template v-slot:headerAction>
             <div>
               <input type="text" @keyup="filter" v-model="filteredText" class="form-control filter-field"
                 placeholder="Filter Services" />
             </div>
-            <b-button v-b-modal="'add-unit-modal'" variant="primary">{{ $t('settings.units.addNew') }}</b-button>
+            <b-button v-b-modal="'add-unit-modal'" variant="primary">{{ $t('settings.unitTab.units.addNew') }}</b-button>
 
           </template>
 
@@ -29,7 +29,7 @@
                         <img v-if="!data.item.editable" :src="data.item.logo" alt="img-flaf" class="img-fluid mr-1"
                           style="height: 40px; width: 40px;" />
                         <b-form-file v-else type="input" @change="onFileChange($event, data.item)" id="logo"
-                          placeholder="Enter your unit logo"></b-form-file>
+                          placeholder="$t('settings.unitTab.units.logoPlaceholder')"></b-form-file>
                       </template>
                       <template v-slot:cell(name)="data">
                         <span v-if="!data.item.editable">{{ data.item.name }}</span>
@@ -161,7 +161,7 @@ export default {
       item.editable = false
       await clinicsService.update(item)
       this.setClinicalUnitsState(this.cloneObject(this.units))
-      this.makeSuccessToast('Changes made')
+      this.makeSuccessToast("$t('settings.unitTab.units.Changes')")
     },
     async remove (item) {
       let isSuccess = await clinicsService.delete(item.id)
@@ -170,9 +170,9 @@ export default {
         this.filteredData.splice(indexFilteredData, 1)
         let indexClinics = this.units.indexOf(item)
         this.units.splice(indexClinics, 1)
-        this.makeSuccessToast('Unit deleted')
+        this.makeSuccessToast("$t('settings.unitTab.units.unitdeleted')")
       } else {
-        this.makeWarningToast('This unit is in use')
+        this.makeWarningToast("$t('settings.unitTab.units.unitIsUse')")
       }
     },
     close (item) {
@@ -203,13 +203,13 @@ export default {
         price: ''
       },
       columns: [
-        { label: 'Logo', key: 'logo', class: 'text-center' },
-        { label: 'Name', key: 'name', class: 'text-left', sortable: true },
-        { label: 'Description', key: 'description', class: 'text-left' },
-        { label: this.$t('settings.units.alias'), key: 'alias', class: 'text-left' },
-        { label: 'Currency', key: 'currency', class: 'text-left' },
-        { label: 'Action', key: 'action', class: 'text-center' },
-        { label: 'Active', key: 'active', class: 'text-center' }
+        { label: this.$t('settings.unitTab.units.logo'), key: 'logo', class: 'text-center' },
+        { label: this.$t('settings.unitTab.units.name'), key: 'name', class: 'text-left', sortable: true },
+        { label: this.$t('settings.unitTab.units.description'), key: 'description', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.alias'), key: 'alias', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.currency'), key: 'currency', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.action'), key: 'action', class: 'text-center' },
+        { label: this.$t('settings.unitTab.units.active'), key: 'active', class: 'text-center' }
       ],
       units: [],
       category: null

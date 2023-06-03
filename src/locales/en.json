@@ -97,11 +97,31 @@
     "reset": "Reset"
   },
   "settings": {
-    "unitTab": "Clinical Units",
-    "units": {
-      "alias": "Alias",
-      "title": "Clinical Units",
-      "addNew": "Add new"
+    "unitTab": {
+      "name": "Clinical Units",
+      "units": {
+        "alias": "Alias",
+        "title": "Clinical Units",
+        "addNew": "Add new",
+        "Changes": "Changes Made",
+        "logoPlaceholder": "Enter your unit logo",
+        "unitdeleted": "Unit deleted",
+        "unitIsUse": "This unit is in use",
+        "logo": "Logo",
+        "nameClinic": "Name",
+        "description": "Description",
+        "currency": "Currency",
+        "action": "Action",
+        "active": "Active"
+      }
+    },
+    "servicesTab": {
+      "name": "Services",
+      "services": {
+        "alias": "Alias",
+        "title": "Clinical Units",
+        "addNew": "Add new"
+      }
     }
   }
 }
