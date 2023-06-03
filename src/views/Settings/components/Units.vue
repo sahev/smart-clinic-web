@@ -29,7 +29,7 @@
                         <img v-if="!data.item.editable" :src="data.item.logo" alt="img-flaf" class="img-fluid mr-1"
                           style="height: 40px; width: 40px;" />
                         <b-form-file v-else type="input" @change="onFileChange($event, data.item)" id="logo"
-                          placeholder="$t('settings.unitTab.units.logoPlaceholder')"></b-form-file>
+                          :placeholder="$t('settings.unitTab.units.logoPlaceholder')"></b-form-file>
                       </template>
                       <template v-slot:cell(name)="data">
                         <span v-if="!data.item.editable">{{ data.item.name }}</span>
@@ -161,7 +161,7 @@ export default {
       item.editable = false
       await clinicsService.update(item)
       this.setClinicalUnitsState(this.cloneObject(this.units))
-      this.makeSuccessToast("$t('settings.unitTab.units.Changes')")
+      this.makeSuccessToast("$t('settings.unitTab.messages.changes')")
     },
     async remove (item) {
       let isSuccess = await clinicsService.delete(item.id)
@@ -170,9 +170,9 @@ export default {
         this.filteredData.splice(indexFilteredData, 1)
         let indexClinics = this.units.indexOf(item)
         this.units.splice(indexClinics, 1)
-        this.makeSuccessToast("$t('settings.unitTab.units.unitdeleted')")
+        this.makeSuccessToast("$t('settings.unitTab.messages.unitDeleted')")
       } else {
-        this.makeWarningToast("$t('settings.unitTab.units.unitIsUse')")
+        this.makeWarningToast("$t('settings.unitTab.messages.unitIsUse')")
       }
     },
     close (item) {
@@ -204,7 +204,7 @@ export default {
       },
       columns: [
         { label: this.$t('settings.unitTab.units.logo'), key: 'logo', class: 'text-center' },
-        { label: this.$t('settings.unitTab.units.name'), key: 'name', class: 'text-left', sortable: true },
+        { label: this.$t('settings.unitTab.units.nameClinic'), key: 'name', class: 'text-left', sortable: true },
         { label: this.$t('settings.unitTab.units.description'), key: 'description', class: 'text-left' },
         { label: this.$t('settings.unitTab.units.alias'), key: 'alias', class: 'text-left' },
         { label: this.$t('settings.unitTab.units.currency'), key: 'currency', class: 'text-left' },
