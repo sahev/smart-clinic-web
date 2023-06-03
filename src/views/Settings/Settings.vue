@@ -7,7 +7,7 @@
             <tab-nav-items :active="true" id="pills-clinics-tab-fill" href="#pills-clinics-fill"
               ariaControls="pills-clinics-fill" role="tab" :ariaSelected="true" :title="$t('settings.unitTab.name')" />
             <tab-nav-items :active="false" id="pills-services-tab-fill" href="#pills-services-fill"
-              ariaControls="pills-services-fill" role="tab" :ariaSelected="false" title="$t('settings.servicesTab.name')"  />
+              ariaControls="pills-services-fill" role="tab" :ariaSelected="false" :title="$t('settings.servicesTab.name')"  />
             <tab-nav-items :active="false" id="pills-categories-tab-fill" href="#pills-categories-fill"
               ariaControls="pills-categories-fill" role="tab" :ariaSelected="false" title="Categories" />
             <tab-nav-items :active="false" id="pills-staffs-tab-fill" href="#pills-staffs-fill"
