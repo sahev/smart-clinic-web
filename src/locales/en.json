@@ -103,16 +103,18 @@
         "alias": "Alias",
         "title": "Clinical Units",
         "addNew": "Add new",
-        "Changes": "Changes Made",
-        "logoPlaceholder": "Enter your unit logo",
-        "unitdeleted": "Unit deleted",
-        "unitIsUse": "This unit is in use",
         "logo": "Logo",
         "nameClinic": "Name",
         "description": "Description",
         "currency": "Currency",
         "action": "Action",
         "active": "Active"
+      },
+      "messages": {
+        "changes": "Changes Made",
+        "logoPlaceholder": "Enter your unit logo",
+        "unitDeleted": "Unit deleted",
+        "unitIsUse": "This unit is in use"
       }
     },
     "servicesTab": {
@@ -120,7 +122,19 @@
       "services": {
         "alias": "Alias",
         "title": "Clinical Units",
-        "addNew": "Add new"
+        "addNew": "Add new",
+        "nameService": "Name",
+        "description": "Description",
+        "category": "Category",
+        "price": "Price",
+        "action": "Action",
+        "active": "Active"
+        
+      },
+      "messages": {
+        "changes": "Changes Made",
+        "serviceDeleted": "Service deleted",
+        "serviceIsUse": "This service is in use"
       }
     }
   }

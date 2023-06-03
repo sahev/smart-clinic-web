@@ -156,7 +156,7 @@ export default {
       await servicesTypeService.update(item)
       this.setServiceState(this.services)
       this.init()
-      this.makeSuccessToast('Changes made')
+      this.makeSuccessToast("$t('settings.servicesTab.messages.changes')")
     },
     getCategoryId (item) {
       this.categories.map(categ => {
@@ -174,10 +174,10 @@ export default {
         let indexCategories = this.services.indexOf(item)
         this.services.splice(indexCategories, 1)
         this.setServiceState(this.services)
-        this.makeSuccessToast('Service deleted')
+        this.makeSuccessToast("$t('settings.servicesTab.messages.serviceDeleted')")
         return
       }
-      this.makeWarningToast('This service is in use')
+      this.makeWarningToast("$t('settings.servicesTab.messages.serviceIsUse')")
     },
     close (item) {
       item.editable = false
@@ -208,12 +208,12 @@ export default {
         price: ''
       },
       columns: [
-        { label: 'name', key: 'name', class: 'text-left', sortable: true },
-        { label: 'Description', key: 'description', class: 'text-left' },
-        { label: 'Category', key: 'category', class: 'text-left' },
-        { label: 'Price', key: 'price', class: 'text-left' },
-        { label: 'Action', key: 'action', class: 'text-center' },
-        { label: 'Active', key: 'active', class: 'text-center' }
+        { label: this.$t('settings.unitTab.units.nameService'), key: 'name', class: 'text-left', sortable: true },
+        { label: this.$t('settings.unitTab.units.description'), key: 'description', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.category'), key: 'category', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.price'), key: 'price', class: 'text-left' },
+        { label: this.$t('settings.unitTab.units.action'), key: 'action', class: 'text-center' },
+        { label: this.$t('settings.unitTab.units.active'), key: 'active', class: 'text-center' }
       ],
       categories: [],
       category: null,
