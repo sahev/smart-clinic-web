@@ -811,7 +811,7 @@ Calender
 .calender-small .flatpickr-calendar.animate.inline { width: 100%; box-shadow: none; }
 .calender-small .dayContainer { width: 100%; min-width: auto; }
 .calender-small .flatpickr-days { width: 100%; }
-.calender-small .flatpickr-day.today { color: #fff; border-color: #089bab; background: #089bab; }
+.calender-small .flatpickr-day.today { border-color: #089bab; }
 .calender-small .flatpickr-day.today:hover, .calender-small .flatpickr-day.today:focus { color: #fff; border-color: #089bab; background: #089bab }
 .calender-small .flatpickr-months { margin-bottom: 10px; }
 .calender-small .flatpickr-current-month .flatpickr-monthDropdown-months { font-size: 16px; }

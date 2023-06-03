@@ -4,7 +4,7 @@
       <b-col md="3">
         <iq-card class="calender-small">
           <template v-slot:body>
-            <flat-pickr :config="config" value="" class="d-none"/>
+            <flat-pickr :config="config" :value="Date.now()" v-model="date" @on-change="goToDate(date)" class="d-none" />
           </template>
         </iq-card>
         <iq-card>
@@ -29,15 +29,11 @@
           </template>
           <template v-slot:body>
             <ul class="m-0 p-0 today-schedule">
-              <li class="d-flex">
+              <li class="d-flex" v-for="event in getDayEvents()" :key="event.id">
                 <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-primary" /></div>
-                <div class="schedule-text"> <span>Web Design</span>
-                  <span>09:00 to 12:00</span></div>
-              </li>
-              <li class="d-flex">
-                <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-success" /></div>
-                <div class="schedule-text"> <span>Participate in Design</span>
-                  <span>09:00 to 12:00</span></div>
+                <div class="schedule-text"> <span>{{ event.title }}</span>
+                  <span>{{ getPeriodConsult(event) }}</span>
+                </div>
               </li>
             </ul>
           </template>
@@ -46,13 +42,14 @@
       <b-col md="9">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Book Appointment</h4>
+            <h4 class="card-title">Calendar</h4>
           </template>
           <template v-slot:headerAction>
-            <a href="#" class="btn btn-primary"><i class="ri-add-line mr-2"></i>Book Appointment</a>
+            <b-button @click="showModal()" variant="primary"><i class="ri-add-line mr-2"></i>Book Appointment</b-button>
+            <CalendarForm :onDateClick="onDateClick" />
           </template>
           <template v-slot:body>
-            <FullCalendar :calendarEvents="events" />
+            <FullCalendar @onDateClickEvent="onDateClickEvent($event)"/>
           </template>
         </iq-card>
       </b-col>
@@ -60,139 +57,88 @@
   </b-container>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { xray } from '../../../config/pluginInit'
+import CalendarForm from './form/CalendarForm.vue'
+
 export default {
   name: 'GoogleCalendar',
-  components: { },
+  components: {
+    CalendarForm
+  },
   data () {
     return {
       config: {
-        dateFormat: 'Y-m-d',
-        inline: true
+        inline: true,
       },
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2023-12-01',
-          color: '#fc9923'
-        },
-        {
-          title: 'Long Event',
-          start: '2023-12-07',
-          end: '2023-12-10',
-          color: '#ffc107' // override!
-        },
-        {
-          groupId: '999',
-          title: 'Repeating Event',
-          start: '2023-12-09T16:00:00',
-          color: '#17a2b8'
-        },
-        {
-          groupId: '999',
-          title: 'Repeating Event',
-          start: '2023-12-16T16:00:00',
-          color: '#17a2b8'
-        },
-        {
-          title: 'Conference',
-          start: '2023-12-11',
-          end: '2023-12-13',
-          color: '#27e3f4' // override!
-        },
-        {
-          title: 'Meeting',
-          start: '2023-12-12T10:30:00',
-          end: '2023-12-12T12:30:00',
-          color: '#0084ff'
-        },
-        {
-          title: 'Lunch',
-          start: '2023-12-12T12:00:00',
-          color: '#777D74'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-12-12T14:30:00',
-          color: '#0084ff'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2023-12-28T07:00:00',
-          color: '#28a745'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-01-12T14:30:00',
-          color: '#0084ff'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-01-02T07:00:00',
-          color: '#28a745'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2020-01-25'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-01-13T07:00:00',
-          color: '#28a745'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2023-12-28'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-01-12T14:30:00',
-          color: '#0084ff'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-01-13T07:00:00',
-          color: '#28a745'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2020-01-28'
-        },
-        {
-          title: 'All Day Event',
-          start: '2020-02-01',
-          color: '#fc9923'
-        },
-        {
-          title: 'Long Event',
-          start: '2020-02-07',
-          end: '2020-02-10',
-          color: '#ffc107' // override!
-        },
-        {
-          groupId: '999',
-          title: 'Repeating Event',
-          start: '2020-02-09T16:00:00',
-          color: '#17a2b8'
-        },
-        {
-          groupId: '999',
-          title: 'Repeating Event',
-          start: '2020-02-16T16:00:00',
-          color: '#17a2b8'
-        }
-      ]
+      showForm: false,
+      onDateClick: null,
+      date: null
     }
+  },
+  created () {
+
   },
   mounted () {
     xray.index()
   },
   computed: {
+    ...mapGetters({
+      events: 'Calendar/events'
+    }),
+
   },
   methods: {
+    ...mapActions({
+      goToDate: 'Calendar/goToDate'
+    }),
+    onDateClickEvent(event) {
+      this.onDateClick = event
+    },
+    showModal () {
+      this.$bvModal.show('form-calendar-modal')
+      console.log('show form');
+    },
+    getDayEvents () {
+      let dayEvents = this.events.filter(event => {
+        let today = new Date().getDate()
+        let day = new Date(event.start || event.date).getDate()
+
+        console.log(day === today , day, today, event.start, event.date, event)
+
+        return day === today
+      })
+
+      return dayEvents
+    },
+    getPeriodConsult (event) {
+      if (event.allDay) return 'all day'
+
+      let startDate = new Date(event.start)
+      let endDate = new Date(event.end)
+
+      let startTime = this.getTime(startDate);
+
+      let endTime = this.getTime(endDate);
+
+      return `${startTime} to ${endTime}`
+    },
+    getTime (dt) {
+      var date = new Date(dt);
+      var h = date.getHours();
+      var m = date.getMinutes();
+      h = this.checkTime(h);
+      m = this.checkTime(m);
+
+      return h + ':' + m
+    },
+
+    checkTime (i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    },
   }
 }
 </script>

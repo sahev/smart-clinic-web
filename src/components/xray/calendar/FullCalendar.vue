@@ -1,13 +1,11 @@
 <template>
-  <VueFullCalendar defaultView="dayGridMonth"
-                   :header="header"
-                   :plugins="calendarPlugins"
-                   :events="calendarEvents"
-                   time-zone="UTC-03:00"
-                   :editable="true"
-  />
+  <!-- <VueFullCalendar time-zone="UTC-03:00" :plugins="calendarPlugins" :header="header" :editable="true" :events="calendarEvents"/> -->
+
+  <VueFullCalendar ref="fullCalendar" :options="config">
+  </VueFullCalendar>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import VueFullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -17,17 +15,7 @@ export default {
   name: 'FullCalendar',
   props: {
     // eslint-disable-next-line vue/require-valid-default-prop
-    calendarEvents: { type: Array, default: [] },
-    header: { type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default () {
-        return {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        }
-      }
-    }
+    // calendarEvents: { type: Array, default: [] },
   },
   data () {
     return {
@@ -36,27 +24,119 @@ export default {
         timeGridPlugin,
         interactionPlugin,
         listPlugin
-      ]
+      ],
     }
   },
   components: {
     VueFullCalendar // make the <VueFullCalendar> tag available
   },
   mounted () {
+
+  },
+  watch: {
+    date (date) {
+      this.goToDate(date)
+    }
   },
   computed: {
+    ...mapGetters({
+      events: 'Calendar/events',
+      weekendsVisible: 'Calendar/weekendsVisible',
+      date: 'Calendar/date'
+    }
+    ),
+    config () {
+      return {
+        ... this.configOptions,
+        ...this.eventHandlers
+      }
+    },
+
+    configOptions () {
+      return {
+        editable: true,
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: false,
+        events: this.events,
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,listMonth'
+        },
+        initialView: 'dayGridMonth',
+        buttonText: {
+          today: 'Today',
+          month: 'Month',
+          week: 'Week',
+          day: 'Day',
+          listWeek: 'List Week',
+          listMonth: 'List Month'
+        }
+      }
+    },
+
+    eventHandlers () {
+      return {
+        dateClick: this.onDateClick,
+        eventClick: this.onEventClick,
+        eventDrop: this.onEventDrop,
+        select: this.onDateSelect
+      }
+    }
   },
   methods: {
+    ...mapActions({
+      createEvent: 'Calendar/createEvent',
+      updateEvent: 'Calendar/updateEvent',
+      setweekendsVisible: 'Calendar/setweekendsVisible'
+    }),
+    onDateClick (payload) {
+      this.$emit('onDateClickEvent', payload)
+      console.log(payload, 'pay');
+      this.showForm()
+    },
+    showForm () {
+      this.$bvModal.show('form-calendar-modal')
+    },
+    onDateSelect (payload) {
+      this.$emit('onDateClickEvent', payload)
+      this.showForm()
+    },
+
+    onEventClick ({ event }) {
+      this.$emit('onDateClickEvent', event)
+      this.showForm()
+    },
+
+    onEventDrop ({ event }) {
+      this.updateEvent(event)
+    },
+    goToDate (date) {
+      let calendarApi = this.$refs.fullCalendar.getApi()
+      calendarApi.gotoDate(date)
+    }
   }
 }
 </script>
 
 <style lang='scss'>
-  .fc-event, .fc-event:hover{
-    color: #ffffff !important;
+.fc-event,
+.fc-event:hover {
+  -webkit-transition: 0s !important;
+  transition: 0s !important;
+}
+
+.fc {
+
+  .fc-col-header,
+  .fc-daygrid-body,
+  .fc-scrollgrid-sync-table,
+  .fc-timegrid-body,
+  .fc-timegrid-body table {
+    inline-size: 100% !important;
+    height: 100% !important;
   }
-  @import '~@fullcalendar/core/main.css';
-  @import '~@fullcalendar/daygrid/main.css';
-  @import '~@fullcalendar/timegrid/main.css';
-  @import '~@fullcalendar/list/main.min.css';
+}
 </style>
