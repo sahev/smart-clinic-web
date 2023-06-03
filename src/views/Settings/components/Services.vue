@@ -4,14 +4,14 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Services</h4>
+            <h4 class="card-title">{{$t('settings.servicesTab.name')}}</h4>
           </template>
           <template v-slot:headerAction>
             <div>
               <input type="text" @keyup="filter" v-model="filteredText" class="form-control filter-field"
                 placeholder="Filter Services" />
             </div>
-            <b-button v-b-modal="'add-service-modal'" variant="primary">Add New</b-button>
+            <b-button v-b-modal="'add-service-modal'" variant="primary">{{$t('settings.servicesTab.services.addNew')}}</b-button>
 
           </template>
 
@@ -208,7 +208,7 @@ export default {
         price: ''
       },
       columns: [
-        { label: 'Name', key: 'name', class: 'text-left', sortable: true },
+        { label: 'name', key: 'name', class: 'text-left', sortable: true },
         { label: 'Description', key: 'description', class: 'text-left' },
         { label: 'Category', key: 'category', class: 'text-left' },
         { label: 'Price', key: 'price', class: 'text-left' },
