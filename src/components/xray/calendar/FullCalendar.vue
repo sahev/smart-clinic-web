@@ -54,12 +54,12 @@ export default {
 
     configOptions () {
       return {
+        dayMaxEvents: true,
         editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: false,
+        businessHours: false,
         events: this.events,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+        dragRevertDuration: 0,
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -73,7 +73,12 @@ export default {
           day: 'Day',
           listWeek: 'List Week',
           listMonth: 'List Month'
-        }
+        },
+        eventTimeFormat: {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        },
       }
     },
 
@@ -82,7 +87,7 @@ export default {
         dateClick: this.onDateClick,
         eventClick: this.onEventClick,
         eventDrop: this.onEventDrop,
-        select: this.onDateSelect
+        // select: this.onDateSelect, // select multiple days
       }
     }
   },
@@ -94,10 +99,9 @@ export default {
     }),
     onDateClick (payload) {
       this.$emit('onDateClickEvent', payload)
-      console.log(payload, 'pay');
       this.showForm()
     },
-    showForm () {
+    showForm (payload) {
       this.$bvModal.show('form-calendar-modal')
     },
     onDateSelect (payload) {
@@ -116,7 +120,8 @@ export default {
     goToDate (date) {
       let calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.gotoDate(date)
-    }
+    },
+
   }
 }
 </script>

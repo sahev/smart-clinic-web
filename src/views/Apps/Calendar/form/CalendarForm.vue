@@ -4,29 +4,31 @@
       <div>
         <b-row lg="2">
           <b-col>
-            <span>start</span>
+            <span>day</span>
             <b-form-datepicker id="example-datepicker" v-model="event.startStr"
               :date-format-options="{ day: 'numeric', month: 'numeric', year: 'numeric' }"></b-form-datepicker>
 
           </b-col>
 
-          <b-col>
-
-            <span>hour</span>
-            <b-form-timepicker id="hourpicker-start" v-model="event.start"></b-form-timepicker>
-          </b-col>
-
         </b-row>
 
+
         <b-row lg="2">
-          <b-col>
+          <!-- <b-col>
             <span>end</span>
             <b-form-datepicker  id="example-datepickere" v-model="event.endStr" :disabled="event.allDay"
               :date-format-options="{ day: 'numeric', month: 'numeric', year: 'numeric' }"></b-form-datepicker>
+          </b-col> -->
+
+
+          <b-col>
+
+            <span>start</span>
+            <b-form-timepicker id="hourpicker-start" v-model="event.start" :disabled="event.allDay"></b-form-timepicker>
           </b-col>
 
           <b-col>
-            <span>hour</span>
+            <span>end</span>
             <b-form-timepicker id="hourpicker-end" v-model="event.end" :disabled="event.allDay"></b-form-timepicker>
 
           </b-col>
@@ -57,12 +59,10 @@
         <span>textColor</span>
         <b-form-input v-model="event.textColor" placeholder="textColor"></b-form-input>
 
-
-
-        <b-form-checkbox v-model="event.editable" switch>
-          Editable
+        <b-form-checkbox v-model="dayOff" switch>
+          day off
         </b-form-checkbox>
-        <label>{{ event.editable }}asda</label>
+
         <b-form-checkbox v-model="event.resourceEditable" switch>
           resourceEditable
         </b-form-checkbox>
@@ -97,42 +97,47 @@ export default {
         allDay: false,
         start: null,
         end: null,
-        startTime: null,
-        endTime: null,
         title: null,
         url: null,
         classNames: null,
         display: null,
         backgroundColor: null,
         borderColor: null,
-        editable: true,
+        overlap: false,
         startEditable: true,
         durationEditable: true,
         resourceEditable: true,
-        textColor: null
-      }
+        textColor: null,
+      },
+      dayOff: false
     }
   },
   watch: {
     onDateClick (newEvent) {
+      console.log('event form', newEvent)
       if (newEvent.id) {
         let eventFind = this.events.filter(event => event.id == newEvent.id)[0]
         this.event = this.cloneObject(eventFind)
         console.log('exist', this.event);
       } else {
         this.event = this.cloneObject(newEvent)
+        this.event.allDay = false;
         console.log('new', this.event);
       }
 
-      let startDate = this.event.startStr ? this.event.startStr : this.event.dateStr
-      let endDate = this.event.endStr ? this.event.endStr : this.event.dateStr
-
+      let startDate = newEvent.startStr ? new Date(newEvent.startStr).toISOString().split('T')[0] : this.event.dateStr
       this.event.startStr = startDate
-      this.event.endStr = endDate
 
+      if (!newEvent.allDay) {
+        console.log(this.event.end, 'ned');
+        let start = new Date(this.event.start ? this.event.start : this.event.startStr)
+        let end = new Date(this.event.end ? this.event.end : new Date(this.event.startStr).setMinutes( start.getMinutes() + 30))
 
+        console.log(start, end, 'aqui')
 
-      this.event.editable = this.event.allDay = false
+        this.event.start = start.toLocaleTimeString()
+        this.event.end = end.toLocaleTimeString()
+      }
     }
   },
   methods: {
@@ -142,8 +147,17 @@ export default {
       updateEvent: 'Calendar/updateEvent'
     }),
     save () {
-      this.event.start = new Date(this.event.startStr + 'T' + this.event.start).toISOString()
-      this.event.end = new Date(this.event.endStr + 'T' + this.event.end).toISOString()
+      console.log('save evevent', this.event);
+
+      if (!this.event.allDay) {
+        this.event.start = this.event.start ? new Date(this.event.startStr + 'T' + this.event.start).toISOString() : this.event.dateStr
+        this.event.end = this.event.start  ? new Date(this.event.startStr + 'T' + this.event.end).toISOString() : this.event.dateStr
+      }
+
+      if (this.dayOff) {
+        this.event.overlap = false
+        this.event.display = 'background'
+      }
 
       if (this.event.id) {
         this.updateEvent(this.event)
