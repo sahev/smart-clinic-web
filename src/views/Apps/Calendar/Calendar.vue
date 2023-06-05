@@ -104,8 +104,6 @@ export default {
         let today = new Date().getDate()
         let day = new Date(event.start || event.date).getDate()
 
-        // console.log(day === today , day, today, event.start, event.date, event)
-
         return day === today
       })
 

@@ -55,8 +55,6 @@ export default {
     configOptions () {
       return {
         dayMaxEvents: true,
-        editable: true,
-        businessHours: false,
         events: this.events,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
         dragRevertDuration: 0,
@@ -84,44 +82,60 @@ export default {
 
     eventHandlers () {
       return {
-        dateClick: this.onDateClick,
-        eventClick: this.onEventClick,
-        eventDrop: this.onEventDrop,
+        dateClick: this.handleClick,
+        eventClick: this.handleClick,
+        eventDrop: this.handleClick,
         // select: this.onDateSelect, // select multiple days
       }
     }
   },
   methods: {
+    handleClick (event) {
+      // not allow dateClick in dayGridMonth
+      if (event.view.type === 'dayGridMonth')
+        return
+
+      // block if background event
+      if (event.event && event.event.display === 'background') {
+        return
+      }
+
+      // eventDrop
+      if (event.oldEvent) {
+        this.updateEvent(event.event)
+        return
+      }
+
+      // eventClick dateClick
+      if (event.event) {
+        this.$emit('onDateClickEvent', event.event)
+        this.showForm()
+        return
+      }
+
+      // block if background event
+      if (event.jsEvent.toElement.offsetParent.fcSeg) {
+        let display = event.jsEvent.toElement.offsetParent.fcSeg.eventRange.def.ui.display
+        if (display === 'background')
+          return
+      }
+
+      //dateclick
+        this.$emit('onDateClickEvent', event)
+        this.showForm()
+    },
     ...mapActions({
       createEvent: 'Calendar/createEvent',
       updateEvent: 'Calendar/updateEvent',
       setweekendsVisible: 'Calendar/setweekendsVisible'
     }),
-    onDateClick (payload) {
-      this.$emit('onDateClickEvent', payload)
-      this.showForm()
-    },
-    showForm (payload) {
+    showForm () {
       this.$bvModal.show('form-calendar-modal')
-    },
-    onDateSelect (payload) {
-      this.$emit('onDateClickEvent', payload)
-      this.showForm()
-    },
-
-    onEventClick ({ event }) {
-      this.$emit('onDateClickEvent', event)
-      this.showForm()
-    },
-
-    onEventDrop ({ event }) {
-      this.updateEvent(event)
     },
     goToDate (date) {
       let calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.gotoDate(date)
     },
-
   }
 }
 </script>
@@ -137,11 +151,14 @@ export default {
 
   .fc-col-header,
   .fc-daygrid-body,
-  .fc-scrollgrid-sync-table,
+  .fc-scrollgrid-sync-table {
+    inline-size: 100% !important;
+    height: 100% !important;
+  }
+
   .fc-timegrid-body,
   .fc-timegrid-body table {
     inline-size: 100% !important;
-    height: 100% !important;
   }
 }
 </style>

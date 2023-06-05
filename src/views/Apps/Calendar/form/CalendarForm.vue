@@ -59,8 +59,8 @@
         <span>textColor</span>
         <b-form-input v-model="event.textColor" placeholder="textColor"></b-form-input>
 
-        <b-form-checkbox v-model="dayOff" switch>
-          day off
+        <b-form-checkbox v-model="outTime" switch>
+          out time
         </b-form-checkbox>
 
         <b-form-checkbox v-model="event.resourceEditable" switch>
@@ -109,7 +109,7 @@ export default {
         resourceEditable: true,
         textColor: null,
       },
-      dayOff: false
+      outTime: false
     }
   },
   watch: {
@@ -150,11 +150,11 @@ export default {
       console.log('save evevent', this.event);
 
       if (!this.event.allDay) {
-        this.event.start = this.event.start ? new Date(this.event.startStr + 'T' + this.event.start).toISOString() : this.event.dateStr
-        this.event.end = this.event.start  ? new Date(this.event.startStr + 'T' + this.event.end).toISOString() : this.event.dateStr
+        this.event.start = this.event.start ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.start).toISOString() : this.event.dateStr
+        this.event.end = this.event.start  ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.end).toISOString() : this.event.dateStr
       }
 
-      if (this.dayOff) {
+      if (this.outTime) {
         this.event.overlap = false
         this.event.display = 'background'
       }
