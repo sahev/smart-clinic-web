@@ -120,13 +120,6 @@ export default {
       console.log(this.clinic, 'save')
       await this.updateClinic(this.clinic)
       this.$router.push('sign-in1')
-      // if (this.formType === 'passport') {
-      //   this.passportRegister()
-      // } else if (this.formType === 'jwt') {
-      //   this.jwtRegister()
-      // } else if (this.formType === 'firebase') {
-      //   this.firebaseRegister()
-      // }
     },
     async updateClinic (data) {
       let clinic = await ClinicsService.update(data)

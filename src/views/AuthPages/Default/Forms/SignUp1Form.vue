@@ -56,7 +56,6 @@
 
 <script>
 import auth from '../../../../services/auth'
-import firebase from 'firebase'
 import SocialLoginForm from './SocialLoginForm'
 import { mapGetters } from 'vuex'
 
@@ -81,8 +80,6 @@ export default {
         this.passportRegister()
       } else if (this.formType === 'jwt') {
         this.jwtRegister()
-      } else if (this.formType === 'firebase') {
-        this.firebaseRegister()
       }
     },
     jwtRegister () {
@@ -97,13 +94,6 @@ export default {
           this.$refs.form.setErrors(response.data.errors)
         }
       }).finally(() => { this.loading = false })
-    },
-    firebaseRegister () {
-      firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then((user) => {
-        this.$router.replace('/auth/sign-in1')
-        // eslint-disable-next-line handle-callback-err
-      }).catch((err) => {
-      })
     }
   }
 }

@@ -41,14 +41,14 @@
             Sign up
           </router-link>
         </span>
-        <social-login-form></social-login-form>
+        <!-- <social-login-form></social-login-form> -->
       </div>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import SocialLoginForm from './SocialLoginForm'
+// import SocialLoginForm from './SocialLoginForm'
 import { mapActions, mapGetters } from 'vuex'
 import auth from '../../../../services/auth'
 import users from '../../../../services/user'
@@ -57,7 +57,7 @@ import parse from '../../../../Utils/parse'
 
 export default {
   name: 'SignIn1Form',
-  components: { SocialLoginForm },
+  // components: { SocialLoginForm },
   props: ['formType', 'email', 'password'],
   data: () => ({
     user: {

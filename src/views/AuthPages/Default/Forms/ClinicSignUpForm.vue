@@ -51,20 +51,20 @@
             Sign in
           </router-link>
         </span>
-        <social-login-form></social-login-form>
+        <!-- <social-login-form></social-login-form> -->
       </div>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import SocialLoginForm from './SocialLoginForm'
+// import SocialLoginForm from './SocialLoginForm'
 import { mapGetters } from 'vuex'
 import clinicsService from '../../../../services/clinic'
 
 export default {
   name: 'SignUp1Form',
-  components: { SocialLoginForm },
+  // components: { SocialLoginForm },
   computed: {
     ...mapGetters({
       users: 'Setting/usersState'
