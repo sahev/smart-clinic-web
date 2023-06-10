@@ -86,7 +86,6 @@ export default {
 
       if (newVal === this.$t('settings.servicesTab.name')) {
         this.init()
-        console.log('change');
       }
     }
   },
@@ -121,7 +120,6 @@ export default {
       this.setServiceState(this.cloneObject(this.services))
     },
     getCategoriesOptions () {
-      console.log('aqui opt', this.categories);
       let options = this.categories.map(categ => categ.name)
       return options
     },
@@ -139,13 +137,11 @@ export default {
       this.setServiceState(this.cloneObject(this.services))
     },
     async getAllServices () {
-      console.log('aqui ser', this.categories);
       let services = this.cloneObject(this.serviceState)
       this.services = this.parseListServicesType(services)
     },
     async getAllCategories () {
       this.categories = this.cloneObject(this.categoryState)
-      console.log('aqui', this.categories);
     },
     edit (item) {
       this.services.map(service => {
@@ -161,7 +157,7 @@ export default {
       await servicesTypeService.update(item)
       this.setServiceState(this.services)
       this.init()
-      this.makeSuccessToast("$t('settings.servicesTab.messages.changes')")
+      this.makeSuccessToast(this.$t('settings.servicesTab.messages.changes'))
     },
     getCategoryId (item) {
       this.categories.map(categ => {
@@ -179,10 +175,10 @@ export default {
         let indexCategories = this.services.indexOf(item)
         this.services.splice(indexCategories, 1)
         this.setServiceState(this.services)
-        this.makeSuccessToast("$t('settings.servicesTab.messages.serviceDeleted')")
+        this.makeSuccessToast(this.$t('settings.servicesTab.messages.serviceDeleted'))
         return
       }
-      this.makeWarningToast("$t('settings.servicesTab.messages.serviceIsUse')")
+      this.makeWarningToast(this.$t('settings.servicesTab.messages.serviceIsUse'))
     },
     close (item) {
       item.editable = false
@@ -213,12 +209,12 @@ export default {
         price: ''
       },
       columns: [
-        { label: this.$t('settings.unitTab.units.nameService'), key: 'name', class: 'text-left', sortable: true },
-        { label: this.$t('settings.unitTab.units.description'), key: 'description', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.category'), key: 'category', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.price'), key: 'price', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.action'), key: 'action', class: 'text-center' },
-        { label: this.$t('settings.unitTab.units.active'), key: 'active', class: 'text-center' }
+        { label: this.$t('settings.servicesTab.services.nameService'), key: 'name', class: 'text-left', sortable: true },
+        { label: this.$t('settings.servicesTab.services.description'), key: 'description', class: 'text-left' },
+        { label: this.$t('settings.servicesTab.services.category'), key: 'category', class: 'text-left' },
+        { label: this.$t('settings.servicesTab.services.price'), key: 'price', class: 'text-left' },
+        { label: this.$t('settings.servicesTab.services.action'), key: 'action', class: 'text-center' },
+        { label: this.$t('settings.servicesTab.services.active'), key: 'active', class: 'text-center' }
       ],
       categories: [],
       category: null,

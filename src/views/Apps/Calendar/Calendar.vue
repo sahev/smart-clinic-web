@@ -14,7 +14,8 @@
           <template v-slot:headerAction>
             <div class="iq-search-bar">
               <form action="#">
-                <input id="search" v-model="searchText" type="text" class="search-input" placeholder="Type here to search...">
+                <input id="search" v-model="searchText" type="text" class="search-input"
+                  placeholder="Type here to search...">
               </form>
             </div>
           </template>
@@ -23,13 +24,14 @@
             <template #label v-slot:body>
               <ul>
                 <b-form-checkbox class="m-0 p-0 job-classification" v-model="allSelected" :indeterminate="indeterminate"
-                  aria-describedby="name" aria-controls="name" @change="toggleAll">
+                  aria-describedby="fullName" aria-controls="fullName" @change="toggleAll">
                   {{ allSelected ? 'Un-select All' : 'Select All' }}
                 </b-form-checkbox>
                 <b-form-group v-slot="{ ariaDescribedby }">
                   <b-checkbox v-for="option in filteredList" v-model="selected" class="custom-checkbox-color-check"
-                    :color="option.color" :key="option.name" :value="option" :aria-describedby="ariaDescribedby" stacked>
-                    {{ option.name }}
+                    @change="toggleEventFilter" :color="option.color" :key="option.fullName" :value="option"
+                    :aria-describedby="ariaDescribedby" stacked>
+                    {{ option.fullName }}
                   </b-checkbox>
                 </b-form-group>
               </ul>
@@ -79,9 +81,10 @@
 import { mapActions, mapGetters } from 'vuex'
 import { xray } from '../../../config/pluginInit'
 import CalendarForm from './form/CalendarForm.vue'
+import usersService from '../../../services/user'
 
 export default {
-  name: 'GoogleCalendar',
+  name: 'Calendar',
   components: {
     CalendarForm
   },
@@ -94,20 +97,22 @@ export default {
       onDateClick: null,
       date: null,
       selected: [],
-      doctorOptions: [
-        { id: 1, name: 'João Araújo', color: 'primary' },
-        { id: 2, name: 'Alan Araújo', color: 'info' },
-        { id: 3, name: 'Sara Araújo', color: 'warning' },
-        { id: 4, name: 'maria Araújo', color: 'primary' },
-        { id: 5, name: 'teste Araújo', color: 'info' },
-        { id: 6, name: 'function Araújo', color: 'warning' },
-        { id: 7, name: 'fulano Araújo', color: 'primary' },
-        { id: 8, name: 'sico Araújo', color: 'info' },
-        { id: 9, name: 'pelé Araújo', color: 'warning' },
-      ],
-      allSelected: false,
+      // staffs: [
+      //   { id: 1, name: 'João Araújo', color: 'primary' },
+      //   { id: 2, name: 'Alan Araújo', color: 'info' },
+      //   { id: 3, name: 'Sara Araújo', color: 'warning' },
+      //   { id: 4, name: 'maria Araújo', color: 'primary' },
+      //   { id: 5, name: 'teste Araújo', color: 'info' },
+      //   { id: 6, name: 'function Araújo', color: 'warning' },
+      //   { id: 7, name: 'fulano Araújo', color: 'primary' },
+      //   { id: 8, name: 'sico Araújo', color: 'info' },
+      //   { id: 9, name: 'pelé Araújo', color: 'warning' },
+      // ],
+      staffs: [],
+      allSelected: true,
       indeterminate: false,
-      searchText: ''
+      searchText: '',
+
     }
   },
   created () {
@@ -115,6 +120,8 @@ export default {
   },
   mounted () {
     xray.index()
+    this.getAllStaffs()
+    this.showEvents(null, true)
   },
   watch: {
     selected (newValue, oldValue) {
@@ -133,24 +140,97 @@ export default {
   },
   computed: {
     ...mapGetters({
-      events: 'Calendar/events'
+      events: 'Calendar/events',
+      clinicState: 'Clinic/clinicState',
     }),
     filteredList () {
-      console.log('filtrado');
-      return this.doctorOptions.filter(item => {
-        return item.name.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().includes(this.searchText.toLowerCase())
-      })
+      return this.staffs.length > 0 ?
+        this.staffs.filter(item => {
+          return item.fullName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().includes(this.searchText.toLowerCase())
+        })
+        : ''
     }
   },
   methods: {
+    ...mapActions({
+      goToDate: 'Calendar/goToDate',
+      updateEvent: 'Calendar/updateEvent',
+    }),
+    async getAllStaffs () {
+      let { data } = await usersService.getAllByHeadQuarterId(this.clinicState.id)
+      this.staffs = this.selected = this.parseListStaffs(data)
+    },
+    parseStaff (staff) {
+      staff.fullName = staff.firstName + ' ' + staff.lastName
+
+      return staff
+    },
+    parseListStaffs (staffs) {
+      return staffs.map(staff => this.parseStaff(staff))
+    },
+    toggleEventFilter (selecteds) {
+      this.staffs.map(staff => {
+        this.hiddenEvents(staff.id)
+      })
+      selecteds.map(selected => {
+        this.showEvents(selected.id)
+      })
+    },
     toggleAll (checked) {
       this.selected = checked ? this.filteredList.slice() : []
+
+      if (checked) {
+        this.selected.map(selected => {
+          this.showEvents(selected.id)
+        })
+      }
+      else {
+        this.staffs.map(staff => {
+          this.hiddenEvents(staff.id)
+        })
+      }
     },
-    ...mapActions({
-      goToDate: 'Calendar/goToDate'
-    }),
-    selectDoctor () {
-      console.log('aqu', this.selected);
+    hiddenEvents(staffId) {
+      let events = window.document.getElementsByClassName("event-" + staffId)
+
+      Array.from(events).forEach(el => {
+        el.classList.add('hidden-event')
+      })
+
+      this.events.map(event => {
+        if (event.classNames == "event-" + staffId) {
+          let e = this.cloneObject(event)
+          e.classNames = "event-" + staffId + ' hidden-event'
+          console.log('updateevent hide', event.classNames);
+          this.updateEvent(e)
+        }
+      })
+
+    },
+    showEvents(staffId, isDefault = false) {
+      if (isDefault) {
+        this.events.map(event => {
+          let e = this.cloneObject(event)
+          e.classNames = "event-" + event.staff.id
+          this.updateEvent(e)
+        })
+        return
+      }
+
+      let events = window.document.getElementsByClassName("event-" + staffId)
+
+      Array.from(events).forEach(el => {
+        el.classList.remove('hidden-event')
+      })
+
+      this.events.map(event => {
+        if (event.classNames == "event-" + staffId + ' hidden-event') {
+          let e = this.cloneObject(event)
+          e.classNames = "event-" + staffId
+          console.log('updateevent show', event.title);
+          this.updateEvent(e)
+        }
+      })
     },
     onDateClickEvent (event) {
       this.onDateClick = event
@@ -205,4 +285,5 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 </style>

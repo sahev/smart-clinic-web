@@ -36,6 +36,10 @@ export default {
   watch: {
     date (date) {
       this.goToDate(date)
+    },
+    events (newv) {
+      console.log('mudei');
+      this.reRender()
     }
   },
   computed: {
@@ -77,6 +81,7 @@ export default {
           minute: '2-digit',
           hour12: false
         },
+
       }
     },
 
@@ -121,8 +126,8 @@ export default {
       }
 
       //dateclick
-        this.$emit('onDateClickEvent', event)
-        this.showForm()
+      this.$emit('onDateClickEvent', event)
+      this.showForm()
     },
     ...mapActions({
       createEvent: 'Calendar/createEvent',
@@ -135,6 +140,10 @@ export default {
     goToDate (date) {
       let calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.gotoDate(date)
+    },
+    reRender () {
+      let calendarApi = this.$refs.fullCalendar.getApi()
+      calendarApi.render()
     },
   }
 }
@@ -160,5 +169,9 @@ export default {
   .fc-timegrid-body table {
     inline-size: 100% !important;
   }
+}
+
+.hidden-event {
+  display: none !important
 }
 </style>

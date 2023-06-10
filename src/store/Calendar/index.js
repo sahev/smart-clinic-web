@@ -141,7 +141,8 @@ const state = {
   // ],
   events: [],
   weekendsVisible: true,
-  date: null
+  date: null,
+  filteredEvents: []
 }
 
 export default {

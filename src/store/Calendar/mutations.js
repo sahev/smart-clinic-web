@@ -33,7 +33,7 @@ export default {
   [Mutation.SET_WEEKENDS_ENABLED] (state, enabled) {
     state.weekendsVisible = enabled
   },
-  goToDate(state, date) {
+  goToDate (state, date) {
     state.date = date
   }
 }

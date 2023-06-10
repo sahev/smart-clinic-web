@@ -44,6 +44,15 @@
         <span>title</span>
         <b-form-input v-model="event.title" placeholder="title"></b-form-input>
 
+        <span>Doctor</span>
+        <b-select plain v-model="event.staff">
+          <template #first>
+            <b-form-select-option :value="null" disabled>Select the doctor</b-form-select-option>
+          </template>
+
+          <b-select-option v-for="staff in this.staffs" :value="staff" :key="staff.id">{{ staff.fullName }}</b-select-option>
+        </b-select>
+
         <span>url</span>
         <b-form-input v-model="event.url" placeholder="url"></b-form-input>
 
@@ -87,6 +96,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import usersService from '../../../../services/user'
 
 export default {
   props: ['onDateClick'],
@@ -108,9 +118,19 @@ export default {
         durationEditable: true,
         resourceEditable: true,
         textColor: null,
+        extendedProps: {
+          staff: {
+            fullName: ''
+          }
+        }
       },
+      staffs: [],
+      selectedStaff: null,
       outTime: false
     }
+  },
+  mounted () {
+    this.getAllStaffs()
   },
   watch: {
     onDateClick (newEvent) {
@@ -131,7 +151,7 @@ export default {
       if (!newEvent.allDay) {
         console.log(this.event.end, 'ned');
         let start = new Date(this.event.start ? this.event.start : this.event.startStr)
-        let end = new Date(this.event.end ? this.event.end : new Date(this.event.startStr).setMinutes( start.getMinutes() + 30))
+        let end = new Date(this.event.end ? this.event.end : new Date(this.event.startStr).setMinutes(start.getMinutes() + 30))
 
         console.log(start, end, 'aqui')
 
@@ -146,12 +166,25 @@ export default {
       createEvent: 'Calendar/createEvent',
       updateEvent: 'Calendar/updateEvent'
     }),
+    async getAllStaffs () {
+      let { data } = await usersService.getAllByHeadQuarterId(this.clinicState.id)
+      this.staffs = this.parseListStaffs(data)
+    },
+    parseStaff (staff) {
+      staff.fullName = staff.firstName + ' ' + staff.lastName
+      return staff
+    },
+    parseListStaffs (staffs) {
+      return staffs.map(staff => this.parseStaff(staff))
+    },
     save () {
       console.log('save evevent', this.event);
 
+      this.event.classNames = 'event-' + this.event.staff.id
+
       if (!this.event.allDay) {
         this.event.start = this.event.start ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.start).toISOString() : this.event.dateStr
-        this.event.end = this.event.start  ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.end).toISOString() : this.event.dateStr
+        this.event.end = this.event.start ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.end).toISOString() : this.event.dateStr
       }
 
       if (this.outTime) {
@@ -178,6 +211,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      clinicState: 'Clinic/clinicState',
       events: 'Calendar/events'
     })
   }
