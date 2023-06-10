@@ -218,8 +218,13 @@ export default {
 }
 </script>
 <style scoped>
-.b-form-spinbutton output>div,
+ .b-form-spinbutton output>div,
 .b-form-spinbutton output>bdi {
   min-width: 2.25em;
 }
+[dir=ltr] .form-control {
+    display: flex;
+    padding: 0;
+    height: 45px !important;
+  }
 </style>

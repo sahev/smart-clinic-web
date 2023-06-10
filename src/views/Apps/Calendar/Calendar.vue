@@ -38,11 +38,6 @@
 
             </template>
           </b-form-group>
-
-          <div>
-            Selected: <strong>{{ selected }}</strong><br>
-          </div>
-
         </iq-card>
         <iq-card>
           <template v-slot:headerTitle>
