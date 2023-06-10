@@ -168,6 +168,7 @@
           <template v-slot:left>
             <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
             <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+            <li class="list-inline-item">v1.0.0</li>
           </template>
           <template v-slot:right>
             Copyright 2k2x <a href="#">sahev</a> All Rights Reserved.
