@@ -83,8 +83,10 @@ export default {
   },
   watch: {
     active (newVal) {
-      if (newVal === 'Services') {
+
+      if (newVal === this.$t('settings.servicesTab.name')) {
         this.init()
+        console.log('change');
       }
     }
   },
@@ -119,6 +121,7 @@ export default {
       this.setServiceState(this.cloneObject(this.services))
     },
     getCategoriesOptions () {
+      console.log('aqui opt', this.categories);
       let options = this.categories.map(categ => categ.name)
       return options
     },
@@ -136,11 +139,13 @@ export default {
       this.setServiceState(this.cloneObject(this.services))
     },
     async getAllServices () {
+      console.log('aqui ser', this.categories);
       let services = this.cloneObject(this.serviceState)
       this.services = this.parseListServicesType(services)
     },
     async getAllCategories () {
       this.categories = this.cloneObject(this.categoryState)
+      console.log('aqui', this.categories);
     },
     edit (item) {
       this.services.map(service => {

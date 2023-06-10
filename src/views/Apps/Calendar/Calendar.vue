@@ -9,19 +9,38 @@
         </iq-card>
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title ">Classification</h4>
+            <h4 class="card-title ">Doctors</h4>
           </template>
           <template v-slot:headerAction>
-            <a href="#"><i class="fa fa-plus  mr-0" aria-hidden="true" /></a>
+            <div class="iq-search-bar">
+              <form action="#">
+                <input id="search" v-model="searchText" type="text" class="search-input" placeholder="Type here to search...">
+              </form>
+            </div>
           </template>
-          <template v-slot:body>
-            <ul class="m-0 p-0 job-classification">
-              <li class=""><i class="ri-check-line bg-danger" />Meeting</li>
-              <li class=""><i class="ri-check-line bg-success" />Business travel</li>
-              <li class=""><i class="ri-check-line bg-warning" />Personal Work</li>
-              <li class=""><i class="ri-check-line bg-info" />Team Project</li>
-            </ul>
-          </template>
+
+          <b-form-group>
+            <template #label v-slot:body>
+              <ul>
+                <b-form-checkbox class="m-0 p-0 job-classification" v-model="allSelected" :indeterminate="indeterminate"
+                  aria-describedby="name" aria-controls="name" @change="toggleAll">
+                  {{ allSelected ? 'Un-select All' : 'Select All' }}
+                </b-form-checkbox>
+                <b-form-group v-slot="{ ariaDescribedby }">
+                  <b-checkbox v-for="option in filteredList" v-model="selected" class="custom-checkbox-color-check"
+                    :color="option.color" :key="option.name" :value="option" :aria-describedby="ariaDescribedby" stacked>
+                    {{ option.name }}
+                  </b-checkbox>
+                </b-form-group>
+              </ul>
+
+            </template>
+          </b-form-group>
+
+          <div>
+            Selected: <strong>{{ selected }}</strong><br>
+          </div>
+
         </iq-card>
         <iq-card>
           <template v-slot:headerTitle>
@@ -49,7 +68,7 @@
             <CalendarForm :onDateClick="onDateClick" />
           </template>
           <template v-slot:body>
-            <FullCalendar @onDateClickEvent="onDateClickEvent($event)"/>
+            <FullCalendar @onDateClickEvent="onDateClickEvent($event)" />
           </template>
         </iq-card>
       </b-col>
@@ -73,7 +92,22 @@ export default {
       },
       showForm: false,
       onDateClick: null,
-      date: null
+      date: null,
+      selected: [],
+      doctorOptions: [
+        { id: 1, name: 'João Araújo', color: 'primary' },
+        { id: 2, name: 'Alan Araújo', color: 'info' },
+        { id: 3, name: 'Sara Araújo', color: 'warning' },
+        { id: 4, name: 'maria Araújo', color: 'primary' },
+        { id: 5, name: 'teste Araújo', color: 'info' },
+        { id: 6, name: 'function Araújo', color: 'warning' },
+        { id: 7, name: 'fulano Araújo', color: 'primary' },
+        { id: 8, name: 'sico Araújo', color: 'info' },
+        { id: 9, name: 'pelé Araújo', color: 'warning' },
+      ],
+      allSelected: false,
+      indeterminate: false,
+      searchText: ''
     }
   },
   created () {
@@ -82,17 +116,43 @@ export default {
   mounted () {
     xray.index()
   },
+  watch: {
+    selected (newValue, oldValue) {
+      // Handle changes in individual flavour checkboxes
+      if (newValue.length === 0) {
+        this.indeterminate = false
+        this.allSelected = false
+      } else if (newValue.length === this.filteredList.length) {
+        this.indeterminate = false
+        this.allSelected = true
+      } else {
+        this.indeterminate = true
+        this.allSelected = false
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       events: 'Calendar/events'
     }),
-
+    filteredList () {
+      console.log('filtrado');
+      return this.doctorOptions.filter(item => {
+        return item.name.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().includes(this.searchText.toLowerCase())
+      })
+    }
   },
   methods: {
+    toggleAll (checked) {
+      this.selected = checked ? this.filteredList.slice() : []
+    },
     ...mapActions({
       goToDate: 'Calendar/goToDate'
     }),
-    onDateClickEvent(event) {
+    selectDoctor () {
+      console.log('aqu', this.selected);
+    },
+    onDateClickEvent (event) {
       this.onDateClick = event
     },
     showModal () {
@@ -140,3 +200,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.doctor-list {
+  display: flex;
+  flex-direction: column;
+}
+</style>

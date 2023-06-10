@@ -2,7 +2,7 @@
   <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
       <router-link :to="homeURL">
-        <img :src="clinicState.logo" class="img-fluid" alt="logo">
+        <img :src="clinicState.logo ? clinicState.logo : require('../../../assets/images/logo.png')" class="img-fluid" alt="logo">
         <span>{{ clinicState.alias }}</span>
       </router-link>
       <div class="iq-menu-bt-sidebar" v-if="toggleButton">
