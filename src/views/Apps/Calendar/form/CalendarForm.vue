@@ -50,7 +50,8 @@
             <b-form-select-option :value="null" disabled>Select the doctor</b-form-select-option>
           </template>
 
-          <b-select-option v-for="staff in this.staffs" :value="staff" :key="staff.id">{{ staff.fullName }}</b-select-option>
+          <b-select-option v-for="staff in this.staffs" :value="staff" :key="staff.id">{{ staff.fullName
+          }}</b-select-option>
         </b-select>
 
         <span>url</span>
@@ -168,19 +169,31 @@ export default {
     }),
     async getAllStaffs () {
       let { data } = await usersService.getAllByHeadQuarterId(this.clinicState.id)
+      console.log(data, 'users');
       this.staffs = this.parseListStaffs(data)
     },
     parseStaff (staff) {
+      // if (!staff.color) {
+      //   staff.color = this.random_rgba()
+      //   console.log('sem cor', staff.color);
+      // }
+
       staff.fullName = staff.firstName + ' ' + staff.lastName
       return staff
     },
     parseListStaffs (staffs) {
       return staffs.map(staff => this.parseStaff(staff))
     },
+    random_rgba () {
+      var o = Math.round, r = Math.random, s = 255;
+      return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')';
+    },
     save () {
-      console.log('save evevent', this.event);
 
       this.event.classNames = 'event-' + this.event.staff.id
+
+      this.event.backgroundColor = this.event.borderColor = this.event.staff.color
+      console.log('save evevent', this.event);
 
       if (!this.event.allDay) {
         this.event.start = this.event.start ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.start).toISOString() : this.event.dateStr
@@ -218,13 +231,14 @@ export default {
 }
 </script>
 <style scoped>
- .b-form-spinbutton output>div,
+.b-form-spinbutton output>div,
 .b-form-spinbutton output>bdi {
   min-width: 2.25em;
 }
+
 [dir=ltr] .form-control {
-    display: flex;
-    padding: 0;
-    height: 45px !important;
-  }
+  display: flex;
+  padding: 0;
+  height: 45px !important;
+}
 </style>

@@ -17,7 +17,6 @@ export default {
       ...state.events[index],
       ...updated
     })
-    console.log(state.events[index], 'update');
 
     return updated
   },

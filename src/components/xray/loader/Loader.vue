@@ -1,7 +1,7 @@
 <template>
   <!-- loader Start -->
   <div id="loading" :style="style">
-    <div id="loading-center">
+    <div id="loading-center" >
     </div>
   </div>
   <!-- loader END -->
@@ -16,9 +16,9 @@ export default {
   },
   mounted () {
     if (this.$route.meta.dark) {
-      this.style = `background: #1d203f url(${this.darkLogo}) no-repeat scroll center center;`
+      this.style = `background: #1d203f url(${this.darkLogo}) no-repeat scroll center center; background-size: 100px !important;`
     } else {
-      this.style = `background: #fff url(${this.logo}) no-repeat scroll center center;`
+      this.style = `background: #fff url(${this.logo}) no-repeat scroll center center; background-size: 100px !important;`
     }
   },
   data () {

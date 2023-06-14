@@ -125,9 +125,9 @@ export default {
       opt.push(this.clinicState.name)
       return opt
     },
-    getRandomColor () {
-      const randomColor = '#' + ((1 << 24) * Math.random() | 0).toString(16)
-      return randomColor
+    randomColor () {
+      var o = Math.round, r = Math.random, s = 255;
+      return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')';
     },
     async register () {
       try {
@@ -135,6 +135,7 @@ export default {
         delete this.staff.fullName
         this.staff.performService = this.performService
         this.staff.clinicId = this.clinicState.id
+        this.staff.color = this.randomColor()
         this.setStaffClinicalUnitId(this.staff)
         let { data } = await usersService.createUser(this.staff)
         this.$emit('onCreate', data)

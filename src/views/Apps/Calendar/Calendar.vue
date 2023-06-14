@@ -28,10 +28,11 @@
                   {{ allSelected ? 'Un-select All' : 'Select All' }}
                 </b-form-checkbox>
                 <b-form-group v-slot="{ ariaDescribedby }">
-                  <b-checkbox v-for="option in filteredList" v-model="selected" class="custom-checkbox-color-check"
-                    @change="toggleEventFilter" :color="option.color" :key="option.fullName" :value="option"
-                    :aria-describedby="ariaDescribedby" stacked>
-                    {{ option.fullName }}
+                  <b-checkbox v-for="staff in filteredList" v-model="selected" class="custom-checkbox-color-check"
+                    @change="toggleEventFilter" :key="staff.fullName" :value="staff" :aria-describedby="ariaDescribedby"
+                    stacked>
+                    <h6><b-badge variant="0" :style="'color: white; opacity: 0.6; background-color: ' + staff.color">{{
+                      staff.fullName }}</b-badge></h6>
                   </b-checkbox>
                 </b-form-group>
               </ul>
@@ -46,7 +47,7 @@
           <template v-slot:body>
             <ul class="m-0 p-0 today-schedule">
               <li class="d-flex" v-for="event in getDayEvents()" :key="event.id">
-                <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-primary" /></div>
+                <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-primary" :style="`color: ${event.backgroundColor} !important`"/></div>
                 <div class="schedule-text"> <span>{{ event.title }}</span>
                   <span>{{ getPeriodConsult(event) }}</span>
                 </div>
@@ -103,7 +104,6 @@ export default {
       //   { id: 8, name: 'sico Araújo', color: 'info' },
       //   { id: 9, name: 'pelé Araújo', color: 'warning' },
       // ],
-      staffs: [],
       allSelected: true,
       indeterminate: false,
       searchText: '',
@@ -120,7 +120,6 @@ export default {
   },
   watch: {
     selected (newValue, oldValue) {
-      // Handle changes in individual flavour checkboxes
       if (newValue.length === 0) {
         this.indeterminate = false
         this.allSelected = false
@@ -144,6 +143,12 @@ export default {
           return item.fullName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().includes(this.searchText.toLowerCase())
         })
         : ''
+    },
+    staffs () {
+      return this.groupById(this.events.map(event => {
+        event.staff.color = event.backgroundColor
+        return event.staff
+      }))
     }
   },
   methods: {
@@ -151,13 +156,19 @@ export default {
       goToDate: 'Calendar/goToDate',
       updateEvent: 'Calendar/updateEvent',
     }),
+    groupById (staffs) {
+      return staffs.sort().reduce((init, current) => {
+        if (init.length === 0 || init[init.length - 1].id !== current.id) {
+          init.push(current);
+        }
+        return init;
+      }, []);
+    },
     async getAllStaffs () {
-      let { data } = await usersService.getAllByHeadQuarterId(this.clinicState.id)
-      this.staffs = this.selected = this.parseListStaffs(data)
+      this.selected = this.parseListStaffs(this.staffs)
     },
     parseStaff (staff) {
       staff.fullName = staff.firstName + ' ' + staff.lastName
-
       return staff
     },
     parseListStaffs (staffs) {
@@ -185,7 +196,7 @@ export default {
         })
       }
     },
-    hiddenEvents(staffId) {
+    hiddenEvents (staffId) {
       let events = window.document.getElementsByClassName("event-" + staffId)
 
       Array.from(events).forEach(el => {
@@ -196,13 +207,12 @@ export default {
         if (event.classNames == "event-" + staffId) {
           let e = this.cloneObject(event)
           e.classNames = "event-" + staffId + ' hidden-event'
-          console.log('updateevent hide', event.classNames);
           this.updateEvent(e)
         }
       })
 
     },
-    showEvents(staffId, isDefault = false) {
+    showEvents (staffId, isDefault = false) {
       if (isDefault) {
         this.events.map(event => {
           let e = this.cloneObject(event)
@@ -222,7 +232,6 @@ export default {
         if (event.classNames == "event-" + staffId + ' hidden-event') {
           let e = this.cloneObject(event)
           e.classNames = "event-" + staffId
-          console.log('updateevent show', event.title);
           this.updateEvent(e)
         }
       })
@@ -232,12 +241,11 @@ export default {
     },
     showModal () {
       this.$bvModal.show('form-calendar-modal')
-      console.log('show form');
     },
     getDayEvents () {
       let dayEvents = this.events.filter(event => {
-        let today = new Date().getDate()
-        let day = new Date(event.start || event.date).getDate()
+        let today = new Date().toISOString().split('T')[0]
+        let day = new Date(event.start || event.date).toISOString().split('T')[0]
 
         return day === today
       })
@@ -280,5 +288,4 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 </style>
