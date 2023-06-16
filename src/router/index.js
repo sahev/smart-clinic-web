@@ -16,6 +16,7 @@ const Dashboard1 = () => import('../views/Dashboards/Dashboard1.vue')
 
 /* UIElements View */
 const Settings = () => import('../views/Settings/Settings.vue')
+const ClinicSettings = () => import('../views/Settings/ClinicSettings.vue')
 const SuperDashboard = () => import('../views/Super/Dashboard.vue')
 const SuperUsers = () => import('../views/Super/Users.vue')
 const SuperClinics = () => import('../views/Super/Clinics.vue')
@@ -321,7 +322,13 @@ const adminChildRoute = (prop, mode = false) => [
     name: prop + '.clinic',
     meta: { dark: mode, auth: true, name: 'clinic' },
     component: Settings
-  }
+  },
+  {
+    path: 'clinic/:id',
+    name: prop + '.clinicSettings',
+    meta: { dark: mode, auth: true, name: 'clinic' },
+    component: ClinicSettings
+  },
   // {
   //   path: 'staffs',
   //   name: prop + '.staffs',

@@ -8,11 +8,20 @@
 
 @import '~node-snackbar/src/sass/snackbar.sass';
 
-[dir="ltr"] {
+[theme-mode="light"] {
   @import "../css/bootstrap";
   @import "../css/light/typography";
   @import "../css/light/style";
   @import "../css/light/responsive";
+  @import "../css/custom.css";
+}
+
+[theme-mode="dark"] {
+  @import "../css/bootstrap";
+  @import "../css/dark/typography";
+  @import "../css/dark/style";
+  @import "../css/dark/responsive";
+  @import "../css/custom.css";
 }
 
 .iq-global-search>ul>li a, .slick-arrow, .breadcrumb-item>a{
@@ -21,14 +30,6 @@
     color: var(--iq-primary);
   }
 }
-
-[dir="rtl"]{
-  @import "../css/rtl/bootstrap";
-  @import "../css/rtl/light/typography";
-  @import "../css/rtl/light/style";
-  @import "../css/rtl/light/responsive";
-}
-
 
 // Font awesome icon Css
 @import "~@fortawesome/fontawesome-free/css/all.min.css";

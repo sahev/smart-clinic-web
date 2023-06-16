@@ -46,5 +46,11 @@ export default {
     let body = document.getElementsByTagName('body')
     body[0].classList.remove('rtl')
     body[0].classList.add('light')
+  },
+  setPrimaryColor (context, payload) {
+    context.commit('setPrimaryColor', payload)
+  },
+  setDarkMode (context, payload) {
+    context.commit('setDarkMode', payload)
   }
 }

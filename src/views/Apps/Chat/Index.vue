@@ -147,7 +147,7 @@ import { xray } from '../../../config/pluginInit'
 import ChatItem from '../../../components/Chat/ChatItem'
 import ToggleButton from '../../../components/Chat/ToggleButton'
 import ToggleContent from '../../../components/Chat/ToggleContent'
-import { Users, MessagesUser1 } from '../../../FackApi/api/chat'
+import { Users, MessagesUser1 } from '../../../MenusOptions/api/chat'
 import User from '../../../Model/User'
 
 export default {

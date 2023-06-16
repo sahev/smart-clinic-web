@@ -29,7 +29,12 @@
           <input type="checkbox" class="custom-control-input" :id="formType">
           <label class="custom-control-label" :for="formType">Remember Me</label>
         </div>
-        <button type="submit" class="btn btn-primary float-right">Sign in</button>
+
+        <button type="submit" class="btn btn-primary float-right">
+          {{ spinner ? '' : 'Sign in' }}
+          <b-spinner v-if="spinner" small class="" label="loading"></b-spinner>
+        </button>
+
       </div>
       <div class="sign-info">
         <span class="dark-color d-inline-block line-height-2">
@@ -65,7 +70,8 @@ export default {
       password: ''
     },
     host: window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : ''),
-    protocol: window.location.protocol
+    protocol: window.location.protocol,
+    spinner: false
   }),
   mounted () {
   },
@@ -87,7 +93,7 @@ export default {
       await this.login()
     },
     async login () {
-      console.log(this.user)
+      this.spinner = true
       let token = await auth.login(this.user)
       console.log(token)
       if (token) {
@@ -104,12 +110,12 @@ export default {
         // this.$cookies.set('token', token.data.accessToken, null, false, 'localhost', 'None')
         // let hostWithSubDomain = this.protocol + '//' + clinic.data.alias + '.' + this.host
         // window.location.href = hostWithSubDomain
-        console.log('host')
         this.$router.push({ name: 'dashboard.home-1' })
       } else {
         document.getElementById('emailInput').className += ' is-invalid'
         document.getElementById('passwordInput').className += ' is-invalid'
         document.getElementById('crederror').innerHTML = ' Invalid Credentials'
+        this.spinner = false
       }
     }
   }

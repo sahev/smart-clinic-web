@@ -264,10 +264,5 @@ export default {
   }
 }
 </script>
-<style>
-.filter-field {
-  height: 35px !important;
-  margin-left: -10px !important;
-  width: 100px;
-}
+<style scoped>
 </style>

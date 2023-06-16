@@ -47,7 +47,7 @@
 </template>
 <script>
 import List from '../menus/ListStyle1'
-import SideBarItems from '../../../FackApi/json/SideBar'
+import SideBarItems from '../../../MenusOptions/json/SideBar'
 import Global from '../search/GlobalSearch.vue'
 
 export default {

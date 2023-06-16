@@ -179,7 +179,7 @@
 </template>
 <script>
 import { xray } from '../../../config/pluginInit'
-import { inboxEmailData, draftEmailsData, sendEmailData, spamEmailsData, starredEmailsData, deletedEmailsData } from '../../../FackApi/api/email'
+import { inboxEmailData, draftEmailsData, sendEmailData, spamEmailsData, starredEmailsData, deletedEmailsData } from '../../../MenusOptions/api/email'
 import EmailDetail from './EmailDetail'
 import EmailItem from './EmailItem'
 import ComposeBody from './ComposeBody'

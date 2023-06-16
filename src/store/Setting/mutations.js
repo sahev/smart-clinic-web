@@ -25,5 +25,11 @@ export default {
   },
   setLangCommit (state, data) {
     state.lang = data
+  },
+  setPrimaryColor(state, data) {
+    state.primaryColor = data
+  },
+  setDarkMode (state, data) {
+    state.darkMode = data
   }
 }

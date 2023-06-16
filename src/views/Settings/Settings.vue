@@ -1,45 +1,54 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col>
+    <iq-card>
+      <template v-slot:headerTitle>
+        <h4 class="card-title ">Clinic Settings</h4>
+      </template>
+
+      <template v-slot:headerAction>
+        <div>
+          <input type="text" @keyup="filter" class="form-control filter-field" v-model="filteredText"
+            placeholder="Filter Clinics" />
+        </div>
+        <b-button v-b-modal="'add-unit-modal'" variant="primary" v-b-tooltip.hover
+          title="User logged must be headquarter clinic" :disabled="isHeadQuarterClinic">Add New</b-button>
+      </template>
+
+      <template v-slot:body>
         <iq-card>
-          <tab-nav @change="onClick($event)" tabs class="nav-fill mb-3" id="pills-tab-1">
-            <tab-nav-items :active="true" id="pills-clinics-tab-fill" href="#pills-clinics-fill"
-              ariaControls="pills-clinics-fill" role="tab" :ariaSelected="true" :title="$t('settings.unitTab.name')" />
-            <tab-nav-items :active="false" id="pills-services-tab-fill" href="#pills-services-fill"
-              ariaControls="pills-services-fill" role="tab" :ariaSelected="false" :title="$t('settings.servicesTab.name')"  />
-            <tab-nav-items :active="false" id="pills-categories-tab-fill" href="#pills-categories-fill"
-              ariaControls="pills-categories-fill" role="tab" :ariaSelected="false" title="Categories" />
-            <tab-nav-items :active="false" id="pills-staffs-tab-fill" href="#pills-staffs-fill"
-              ariaControls="pills-staffs-fill" role="tab" :ariaSelected="false" title="Staffs" />
-          </tab-nav>
-          <tab-content id="pills-tabContent-1" class="mt-0">
-            <tab-content-item :active="true" id="pills-clinics-fill" aria-labelled-by="pills-clinics-tab-fill">
-              <Units />
-            </tab-content-item>
-            <tab-content-item :active="false" id="pills-services-fill" aria-labelled-by="pills-services-tab-fill">
-              <Services :active="activePage"/>
-            </tab-content-item>
-            <tab-content-item :active="false" id="pills-categories-fill" aria-labelled-by="pills-categories-tab-fill">
-              <Categories :active="activePage"/>
-            </tab-content-item>
-            <tab-content-item :active="false" id="pills-staffs-fill" aria-labelled-by="pills-staffs-tab-fill">
-              <Staffs :active="activePage"/>
-            </tab-content-item>
-          </tab-content>
+          <b-card v-for="clinic in (filteredText.length > 0 ? filteredData : units)" :key="clinic.id"
+            :class="`card-list mb-2 shadow-sm border-5 border-left border-status-${clinic.active ? 'active' : 'disabled'}`"
+            @click="onClick(clinic.id)">
+            <b-card-title class="float">
+              {{ clinic.alias }} <small class="text-muted">| {{ clinic.name }}</small>
+            </b-card-title>
+
+            <b-card-text>
+              {{ clinic.description }}
+            </b-card-text>
+          </b-card>
+
+          <UnitForm @onCreate="onCreate" />
+
         </iq-card>
-      </b-col>
-    </b-row>
+        <b-card-text class="text-center" v-if="notFound">
+          Clinic not found
+        </b-card-text>
+      </template>
+
+    </iq-card>
   </b-container>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import Units from './components/Units.vue'
+import { mapActions, mapGetters } from 'vuex'
+// import Units from './components/Units.vue'
+import UnitForm from './components/Forms/UnitForm.vue'
 import Services from './components/Services.vue'
 import Staffs from './components/Staffs.vue'
 import Categories from './components/Categories.vue'
 import servicesTypeService from '../../services/serviceTypes'
 import categoryServices from '../../services/category'
+import clinicServices from '../../services/clinic'
 
 export default {
   name: 'SettingsPage',
@@ -49,7 +58,11 @@ export default {
       active: false,
       activeClinics: true,
       activeServices: false,
-      activeCategories: false
+      activeCategories: false,
+      units: [],
+      filteredText: '',
+      filteredData: [],
+      notFound: false
     }
   },
   async mounted () {
@@ -60,24 +73,31 @@ export default {
     }
   },
   components: {
-    Units,
-    Services,
-    Staffs,
-    Categories
+    UnitForm
   },
-  beforeMount () {
+  computed: {
+    isHeadQuarterClinic () {
+      return this.clinicState.headQuarterId > 0
+    },
+    ...mapGetters({
+      clinicState: 'Clinic/clinicState'
+    })
   },
   methods: {
     ...mapActions({
       setCategoryState: 'Category/setCategoryState',
       setServiceState: 'Service/setServiceState'
     }),
-    onClick (e) {
-      this.activePage = e.target.innerHTML
+    onClick (id) {
+      this.$router.push(`clinic/${id}`)
     },
     async init () {
+      await this.getAllClinics()
       await this.getAllCategories()
       await this.getAllServices()
+    },
+    onCreate (unit) {
+      this.units.push(unit)
     },
     async getAllCategories () {
       let { data } = await categoryServices.getAll()
@@ -86,17 +106,24 @@ export default {
     async getAllServices () {
       let { data } = await servicesTypeService.getAll()
       this.setServiceState(data)
-    }
-  },
-  computed: {
+    },
+    async getAllClinics () {
+      let { data } = await clinicServices.getAll()
+      this.units = data;
+    },
+    filter () {
+      this.filteredData = []
+
+      this.units.map(unit => {
+        if (unit.name.includes(this.filteredText) || unit.alias.includes(this.filteredText)) {
+          this.filteredData.push(unit)
+          this.notFound = false
+        } else {
+          this.notFound = true
+        }
+      })
+    },
   }
 }
 </script>
-<style>
-.nav-tabs .nav-link.active {
-  border-bottom: 2px solid #089bab;
-  color: #089bab;
-  border-top-left-radius: 50% !important;
-  border-top-right-radius: 50% !important;
-}
-</style>
+<style scoped></style>

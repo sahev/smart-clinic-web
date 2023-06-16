@@ -8,5 +8,7 @@ export default {
   globalSearchState: state => state.globalSearch,
   bookmarkState: state => state.bookmark,
   langOptionState: state => state.langOption,
-  colorState: state => state.colors
+  colorState: state => state.colors,
+  darkMode: state => state.darkMode,
+  primaryColor: state => state.primaryColor
 }

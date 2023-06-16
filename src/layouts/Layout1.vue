@@ -22,8 +22,22 @@
                   </a>
                 </div>
               </li>
-              <li class="nav-item iq-full-screen">
-                <a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a>
+              <li>
+                <b-form-input type="color" v-model="colorSelected">
+                  asdsd
+                </b-form-input>
+              </li>
+
+              <li class="nav-item" v-for="color in colors" :key="color.primary">
+                <a href="#" @click="changeColor(color)" class="search-toggle iq-waves-effect"
+                  :style="'background-color: ' + color.primary + ';'">
+
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" @click="toggleDarkMode" class="search-toggle iq-waves-effect">
+                  <i :class="darkModeStore == 'dark' ? 'ri-contrast-2-line' : 'ri-sun-line'"></i>
+                </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="search-toggle iq-waves-effect">
@@ -56,7 +70,7 @@
               <li class="nav-item">
                 <a href="#" class="search-toggle iq-waves-effect">
                   <i class="ri-mail-open-fill"></i>
-                  <span class="bg-primary count-mail"></span>
+                  <span class="bg-danger count-mail"></span>
                 </a>
                 <div class="iq-sub-dropdown">
                   <div class="iq-card shadow-none m-0">
@@ -137,7 +151,7 @@
                           </div>
                         </div>
                       </a>
-                      <a href="#" class="iq-sub-card iq-bg-primary-secondary-hover">
+                      <a class="iq-sub-card iq-bg-primary-secondary-hover" @click="changeColor()">
                         <div class="media align-items-center">
                           <div class="rounded iq-card-icon iq-bg-secondary">
                             <i class="ri-lock-line"></i>
@@ -160,10 +174,13 @@
           </template>
         </NavBarStyle1>
         <!-- TOP Nav Bar END -->
-        <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in"
-          :leave-active-class="`animated ${animated.exit}`">
-          <router-view />
-        </transition>
+        <template>
+
+          <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in"
+            :duration="animated.delay" :leave-active-class="`animated ${animated.exit}`">
+            <router-view />
+          </transition>
+        </template>
         <FooterStyle1>
           <template v-slot:left>
             <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
@@ -182,12 +199,12 @@
 import Loader from '../components/xray/loader/Loader'
 import SideBarStyle1 from '../components/xray/sidebars/SideBarStyle1'
 import NavBarStyle1 from '../components/xray/navbars/NavBarStyle1'
-import SideBarItems from '../FackApi/json/SideBar'
-import HorizontalItems from '../FackApi/json/HorizontalMenu'
+import SideBarItems from '../MenusOptions/json/SideBar'
+import HorizontalItems from '../MenusOptions/json/HorizontalMenu'
 import profile from '../assets/images/user/1.jpg'
 import loader from '../assets/images/logo.png'
 import { xray } from '../config/pluginInit'
-import { Users } from '../FackApi/api/chat'
+import { Users } from '../MenusOptions/api/chat'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Layout1',
@@ -197,30 +214,36 @@ export default {
     NavBarStyle1
   },
   mounted () {
+    this.setInitialTheme()
     this.updateRadio()
-    console.log(this.userState)
+    xray.loaderInit()
   },
   computed: {
     ...mapGetters({
       selectedLang: 'Setting/langState',
       langsOptions: 'Setting/langOptionState',
       colors: 'Setting/colorState',
-      userState: 'User/userState'
+      userState: 'User/userState',
+      primaryColor: 'Setting/primaryColor',
+      darkModeStore: 'Setting/darkMode',
     })
   },
   watch: {
+    colorSelected (newv) {
+      this.changeColor(newv)
+    }
   },
   // sidebarTicket
   data () {
     return {
+      colorSelected: '',
       showUserOptions: true,
       horizontal: false,
       mini: false,
-      darkMode: false,
-      animated: { enter: 'zoomIn', exit: 'zoomOut' },
+      animated: { enter: 'fadeIn', exit: 'zoomOut', delay: 400 },
       animateClass: [
         { value: { enter: 'zoomIn', exit: 'zoomOut' }, text: 'Zoom' },
-        { value: { enter: 'fadeInUp', exit: 'fadeOutDown' }, text: 'Fade' },
+        { value: { enter: 'fadeIn', exit: 'fadeOut' }, text: 'Fade' },
         { value: { enter: 'slideInLeft', exit: 'slideOutRight' }, text: 'Slide' },
         { value: { enter: 'rotateInDownLeft', exit: 'rotateOutDownLeft' }, text: 'Roll' }
       ],
@@ -247,6 +270,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setPrimaryColor: 'Setting/setPrimaryColor',
+      setDarkMode: 'Setting/setDarkMode',
+    }),
     log () {
       document.getElementById('userlistoptions').removeAttribute('class')
     },
@@ -263,26 +290,42 @@ export default {
       this.$store.dispatch('Setting/miniSidebarAction')
       this.updateRadio()
     },
-    rtlChange () {
-      if (this.rtl) {
-        this.rtlRemove()
-      } else {
-        this.rtlAdd()
+    setInitialTheme () {
+      document.documentElement.setAttribute('theme-mode', this.darkModeStore)
+
+      if (!this.primaryColor) {
+        this.reset()
+        return
+      }
+
+      this.changeColor(this.primaryColor)
+    },
+    toggleDarkMode () {
+      if (document.documentElement.getAttribute('theme-mode') == 'dark') {
+        document.documentElement.setAttribute('theme-mode', 'light')
+        this.setDarkMode('light')
+      }
+      else {
+        document.documentElement.setAttribute('theme-mode', 'dark')
+        this.setDarkMode('dark')
       }
     },
-    changeColor (code) {
-      document.documentElement.style.setProperty('--iq-primary', code.primary)
-      document.documentElement.style.setProperty('--iq-primary-light', code.primaryLight)
-      if (this.darkMode) {
-        document.documentElement.style.setProperty('--iq-bg-dark-color', code.bodyBgDark)
+    changeColor (color) {
+      if (this.darkModeStore == 'dark') {
+        document.documentElement.style.setProperty('--iq-primary-dark', color.primary)
+        document.documentElement.style.setProperty('--iq-bg-dark-color', color.bodyBgDark)
       } else {
-        document.documentElement.style.setProperty('--iq-bg-light-color', code.bodyBgLight)
+        // document.documentElement.style.setProperty('--iq-primary', color.bodyBgLight)
+        document.documentElement.style.setProperty('--iq-bg-light-color', color.bodyBgLight)
+        document.documentElement.style.setProperty('--iq-primary', color.primary)
+        document.documentElement.style.setProperty('--iq-primary-light', color.primaryLight)
       }
+
+      this.setPrimaryColor(color)
     },
     reset () {
-      this.changeColor({ primary: '#827af3', primaryLight: '#b47af3', bodyBgLight: '#efeefd', bodyBgDark: '#1d203f' })
+      this.changeColor({ primary: '#0db5c8', primaryLight: '#b47af3', bodyBgLight: '#efeefd', bodyBgDark: '#1d203f' })
       this.animated = { enter: 'zoomIn', exit: 'zoomOut' }
-      this.light()
     },
     logout () {
       // this.logoutState()
@@ -310,4 +353,7 @@ export default {
   }
 }
 </script>
-<style>@import url("../assets/css/custom.css");</style>
+<style>
+@import url("../assets/css/custom.css");
+</style>
+<style scoped></style>
