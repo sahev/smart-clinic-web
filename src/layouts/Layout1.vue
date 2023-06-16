@@ -22,16 +22,9 @@
                   </a>
                 </div>
               </li>
-              <li>
-                <b-form-input type="color" v-model="colorSelected">
-                  asdsd
-                </b-form-input>
-              </li>
-
               <li class="nav-item" v-for="color in colors" :key="color.primary">
                 <a href="#" @click="changeColor(color)" class="search-toggle iq-waves-effect"
                   :style="'background-color: ' + color.primary + ';'">
-
                 </a>
               </li>
               <li class="nav-item">
