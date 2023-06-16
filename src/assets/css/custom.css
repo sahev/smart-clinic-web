@@ -15,3 +15,7 @@ import Css
 @import url("./slick-theme.css");
 @import "variable.css";
 @import url('developer.css');
+
+.switch-option {
+    display: flex;
+}

@@ -17,7 +17,7 @@
             </iq-card>
           </b-col>
           <b-col md="6" lg="3">
-            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-warning rounded">
+            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-primary rounded">
               <template v-slot:body >
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-women-fill"></i></div>
@@ -30,7 +30,7 @@
             </iq-card>
           </b-col>
           <b-col md="6" lg="3">
-            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-danger rounded">
+            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-primary rounded">
               <template v-slot:body >
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-group-fill"></i></div>
@@ -43,7 +43,7 @@
             </iq-card>
           </b-col>
           <b-col md="6" lg="3">
-            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-info rounded">
+            <iq-card class-name="iq-card-block iq-card-stretch iq-card-height" body-class="iq-bg-primary rounded">
               <template v-slot:body >
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>

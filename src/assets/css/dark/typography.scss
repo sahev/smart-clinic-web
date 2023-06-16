@@ -61,6 +61,9 @@ label { color: #3f414d; }
 .form-control { height: 45px; line-height: 45px; background: transparent; border: 1px solid #d7dbda; font-size: 14px; color: var(--text-muted-dark); border-radius: 10px; }
 .form-control:focus { background: transparent; border-color: var(--text-color-primary-dark); color: var(--text-color-primary-dark); box-shadow: none; }
 
+.custom-file-label { background: transparent; border: 1px solid #d7dbda; font-size: 14px; color: var(--text-muted-dark); border-radius: 10px; }
+.custom-file-label:focus { background: transparent; border-color: var(--text-color-primary-dark); color: var(--text-color-primary-dark); box-shadow: none; }
+
 /* Definition Lists */
 dl dd { margin-bottom: 15px; }
 dl dd:last-child { margin-bottom: 0px; }

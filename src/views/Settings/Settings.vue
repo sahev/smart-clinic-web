@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <iq-card>
+    <iq-card v-if="!clinicSettingsActive">
       <template v-slot:headerTitle>
         <h4 class="card-title ">Clinic Settings</h4>
       </template>
@@ -18,7 +18,7 @@
         <iq-card>
           <b-card v-for="clinic in (filteredText.length > 0 ? filteredData : units)" :key="clinic.id"
             :class="`card-list mb-2 shadow-sm border-5 border-left border-status-${clinic.active ? 'active' : 'disabled'}`"
-            @click="onClick(clinic.id)">
+            @click="onClick(clinic)">
             <b-card-title class="float">
               {{ clinic.alias }} <small class="text-muted">| {{ clinic.name }}</small>
             </b-card-title>
@@ -36,7 +36,9 @@
         </b-card-text>
       </template>
 
+
     </iq-card>
+    <ClinicSettings v-if="clinicSettingsActive" @onBack="clinicSettingsActive = !clinicSettingsActive" :clinic="selectedClinic" />
   </b-container>
 </template>
 <script>
@@ -49,9 +51,14 @@ import Categories from './components/Categories.vue'
 import servicesTypeService from '../../services/serviceTypes'
 import categoryServices from '../../services/category'
 import clinicServices from '../../services/clinic'
+import ClinicSettings from './ClinicSettings.vue'
 
 export default {
   name: 'SettingsPage',
+  components: {
+    UnitForm,
+    ClinicSettings
+  },
   data () {
     return {
       activePage: 'Unit',
@@ -62,7 +69,9 @@ export default {
       units: [],
       filteredText: '',
       filteredData: [],
-      notFound: false
+      notFound: false,
+      selectedClinic: {},
+      clinicSettingsActive: false
     }
   },
   async mounted () {
@@ -71,9 +80,6 @@ export default {
   firestore () {
     return {
     }
-  },
-  components: {
-    UnitForm
   },
   computed: {
     isHeadQuarterClinic () {
@@ -88,8 +94,10 @@ export default {
       setCategoryState: 'Category/setCategoryState',
       setServiceState: 'Service/setServiceState'
     }),
-    onClick (id) {
-      this.$router.push(`clinic/${id}`)
+    onClick (clinic) {
+      this.clinicSettingsActive = true
+      this.selectedClinic = clinic
+      // this.$router.push(`clinic/${id}`)
     },
     async init () {
       await this.getAllClinics()

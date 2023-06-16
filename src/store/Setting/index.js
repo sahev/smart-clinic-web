@@ -15,7 +15,7 @@ const state = {
   primaryColor: '',
   darkMode: 'light',
   colors: [
-    { primary: '#0db5c8', primaryLight: '#b47af3', bodyBgLight: '#efeefd', bodyBgDark: '#2c2c2c' },
+    { primary: '#0db5c8', primaryLight: '#b47af3', bodyBgLight: '#eff7f8', bodyBgDark: '#2c2c2c' },
     { primary: '#827af3', primaryLight: '#b47af3', bodyBgLight: '#efeefd', bodyBgDark: '#2c2c2c' },
     { primary: '#e07af3', primaryLight: '#f37ab7', bodyBgLight: '#f7eefd', bodyBgDark: '#2c2c2c' },
     { primary: '#6475c7', primaryLight: '#7abbf3', bodyBgLight: '#eaf5ff', bodyBgDark: '#2c2c2c' },
