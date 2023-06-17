@@ -113,7 +113,6 @@
     </div>
     </b-row>
 
-
     <div class="checkbox-label mb-3">
       <label class="mr-5">
         Default Pallet:
@@ -122,7 +121,6 @@
         :style="`background: ${col.primary} !important; width: 30px;`"></b-button>
       <b-button class="mr-2" @click="resetColor()" variant="primary">Reset</b-button>
     </div>
-
 
     <br>
 
