@@ -16,6 +16,6 @@ import Css
 @import "variable.css";
 @import url('developer.css');
 
-.switch-option {
+.checkbox-label {
     display: flex;
 }

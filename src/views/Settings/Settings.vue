@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <iq-card v-if="!clinicSettingsActive">
+    <iq-card>
       <template v-slot:headerTitle>
         <h4 class="card-title ">Clinic Settings</h4>
       </template>
@@ -18,7 +18,7 @@
         <iq-card>
           <b-card v-for="clinic in (filteredText.length > 0 ? filteredData : units)" :key="clinic.id"
             :class="`card-list mb-2 shadow-sm border-5 border-left border-status-${clinic.active ? 'active' : 'disabled'}`"
-            @click="onClick(clinic)">
+            @click="onClick(clinic.id)">
             <b-card-title class="float">
               {{ clinic.alias }} <small class="text-muted">| {{ clinic.name }}</small>
             </b-card-title>
@@ -28,8 +28,6 @@
             </b-card-text>
           </b-card>
 
-          <UnitForm @onCreate="onCreate" />
-
         </iq-card>
         <b-card-text class="text-center" v-if="notFound">
           Clinic not found
@@ -38,7 +36,7 @@
 
 
     </iq-card>
-    <ClinicSettings v-if="clinicSettingsActive" @onBack="clinicSettingsActive = !clinicSettingsActive" :clinic="selectedClinic" />
+    <!-- <ClinicSettings v-if="clinicSettingsActive" @onBack="clinicSettingsActive = !clinicSettingsActive" :clinic="selectedClinic" /> -->
   </b-container>
 </template>
 <script>
@@ -94,10 +92,10 @@ export default {
       setCategoryState: 'Category/setCategoryState',
       setServiceState: 'Service/setServiceState'
     }),
-    onClick (clinic) {
-      this.clinicSettingsActive = true
-      this.selectedClinic = clinic
-      // this.$router.push(`clinic/${id}`)
+    onClick (id) {
+      // this.clinicSettingsActive = true
+      // this.selectedClinic = clinic
+      this.$router.push(`clinic/${id}`)
     },
     async init () {
       await this.getAllClinics()

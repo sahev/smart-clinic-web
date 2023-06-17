@@ -22,11 +22,6 @@
                   </a>
                 </div>
               </li>
-              <li class="nav-item" v-for="color in colors" :key="color.primary">
-                <a href="#" @click="changeColor(color)" class="search-toggle iq-waves-effect"
-                  :style="'background-color: ' + color.primary + ';'">
-                </a>
-              </li>
               <li class="nav-item">
                 <a href="#" @click="toggleDarkMode" class="search-toggle iq-waves-effect">
                   <i :class="darkModeStore == 'dark' ? 'ri-contrast-2-line' : 'ri-sun-line'"></i>
@@ -144,7 +139,7 @@
                           </div>
                         </div>
                       </a>
-                      <a class="iq-sub-card iq-bg-primary-secondary-hover" @click="changeColor()">
+                      <a class="iq-sub-card iq-bg-primary-secondary-hover">
                         <div class="media align-items-center">
                           <div class="rounded iq-card-icon iq-bg-secondary">
                             <i class="ri-lock-line"></i>

@@ -1,124 +1,240 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col md="12">
-        <iq-card>
-          <template v-slot:headerTitle>
-            <h4 class="card-title">{{ $t('settings.unitTab.units.title') }}</h4>
-          </template>
-          <template v-slot:headerAction>
-            <div>
-              <input type="text" @keyup="filter" v-model="filteredText" class="form-control filter-field"
-                placeholder="Filter Services" />
+    <h5 class="mb-3">Basic Information</h5>
+
+    <div class="new-clinic-info">
+      <b-row>
+        <b-form-group class="col-md-6" label="Unit name:" label-for="name">
+          <ValidationProvider name="Unit name" rules="required" v-slot="{ errors }">
+            <b-form-input v-model="unit.name" type="text" placeholder="Unit Name"
+              :class="(errors.length > 0 ? ' is-invalid' : '')"></b-form-input>
+            <div class="invalid-feedback">
+              <span>{{ errors[0] }}</span>
             </div>
-            <b-button v-b-modal="'add-unit-modal'" variant="primary">{{ $t('settings.unitTab.units.addNew') }}</b-button>
+          </ValidationProvider>
+        </b-form-group>
+        <b-form-group class="col-md-6" label="Alias:" label-for="alias">
+          <ValidationProvider name="Unit Alias" rules="required" v-slot="{ errors }">
+            <b-form-input v-model="unit.alias" type="text" placeholder="Unit Alias"
+              :class="(errors.length > 0 ? ' is-invalid' : '')"></b-form-input>
+            <div class="invalid-feedback">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </b-form-group>
+        <b-form-group class="col-md-6" label="Unit Address:" label-for="add1">
+          <b-form-input v-model="unit.address" type="text" name="add1" id="add1"
+            placeholder="Unit Address"></b-form-input>
+        </b-form-group>
+        <b-form-group class="col-md-6" label="City:" label-for="city">
+          <b-form-input v-model="unit.city" type="text" name="city" id="city" placeholder="City"></b-form-input>
+        </b-form-group>
 
-          </template>
+      </b-row>
+      <div>
+        <label for="description">Description</label>
+        <input type="text" v-model="unit.description" class="form-control mb-0" id="description"
+          placeholder="Enter unit description">
+      </div>
 
-          <UnitForm @onCreate="onCreate" />
+      <hr>
+      <h5 class="mb-3">Contact</h5>
 
-          <template v-slot:body>
-            <b-row>
-              <b-col v-show="units.length > 0" md="12" class="table-responsive">
-                <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-                  <form novalidate>
+      <b-row>
+        <b-form-group class="col-md-6" label="Email:" label-for="uname">
+          <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
+            <b-form-input v-model="unit.email" type="text" placeholder="Email"
+              :class="(errors.length > 0 ? ' is-invalid' : '')"></b-form-input>
+            <div class="invalid-feedback">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </b-form-group>
+        <b-form-group class="col-md-6" label="Mobile Number:" label-for="mobno">
+          <ValidationProvider name="Mobile Number" rules="required" v-slot="{ errors }">
+            <b-form-input v-model="unit.phone1" type="text" placeholder="Mobile Number"
+              :class="(errors.length > 0 ? ' is-invalid' : '')"></b-form-input>
+            <div class="invalid-feedback">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </b-form-group>
+        <b-form-group class="col-md-6" label="Mobile Number:" label-for="mobno">
+          <ValidationProvider name="Mobile Number" rules="required" v-slot="{ errors }">
+            <b-form-input v-model="unit.phone2" type="text" placeholder="Mobile Number"
+              :class="(errors.length > 0 ? ' is-invalid' : '')"></b-form-input>
+            <div class="invalid-feedback">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+        </b-form-group>
+      </b-row>
 
-                    <b-table id="dev-table " :items="filteredText.length > 0 ? filteredData : units" :fields="columns"
-                      foot-clone>
-                      <template v-slot:cell(logo)="data">
-                        <img v-if="!data.item.editable" :src="data.item.logo" alt="img-flaf" class="img-fluid mr-1"
-                          style="height: 40px; width: 40px;" />
-                        <b-form-file v-else type="input" @change="onFileChange($event, data.item)" id="logo"
-                          :placeholder="$t('settings.unitTab.units.logoPlaceholder')"></b-form-file>
-                      </template>
-                      <template v-slot:cell(name)="data">
-                        <span v-if="!data.item.editable">{{ data.item.name }}</span>
-                        <input type="text" v-model="data.item.name" v-else class="form-control filter-field">
-                      </template>
-                      <template v-slot:cell(description)="data">
-                        <span v-if="!data.item.editable">{{ data.item.description }}</span>
-                        <input type="text" v-model="data.item.description" v-else class="form-control filter-field">
-                      </template>
-                      <template v-slot:cell(alias)="data">
-                        <span v-if="!data.item.editable">{{ data.item.alias }}</span>
-                        <input type="text" v-model="data.item.alias" v-else class="form-control filter-field">
-                      </template>
-                      <template v-slot:cell(currency)="data">
-                        <ValidationProvider rules="required|min:1|max:3" name="currency" v-slot="{ errors }">
-                          <span v-if="!data.item.editable">{{ data.item.currency }}</span>
-                          <input type="text" id="currency" v-model="data.item.currency" v-else
-                            :class="'form-control filter-field ' + (errors.length > 0 ? ' is-invalid' : '')">
-                        </ValidationProvider>
-                      </template>
-                      <template v-slot:cell(action)="data">
-                        <b-button v-if="!data.item.editable" variant=" iq-bg-success mr-1" size="sm"
-                          @click="edit(data.item)">
-                          <i class="ri-ball-pen-fill m-0"></i>
-                        </b-button>
-                        <b-button v-else variant=" iq-bg-success mr-1" size="sm" @click="handleSubmit(update(data.item))">
-                          <i class="ri-save-line m-0"></i>
-                        </b-button>
-                        <b-button v-if="!data.item.editable" size="sm" variant=" iq-bg-danger" @click="remove(data.item)">
-                          <i class="ri-delete-bin-line m-0"></i>
-                        </b-button>
-                        <b-button v-else variant=" iq-bg-danger mr-1" size="sm" @click="close(data.item)">
-                          <i class="ri-close-line m-0"></i>
-                        </b-button>
-                      </template>
-                      <template v-slot:cell(active)="data">
+      <div class="checkbox-label">
+        <label class="mr-5">
+          Enable:
+        </label>
+        <b-form-checkbox v-model="unit.active" switch></b-form-checkbox>
+      </div>
+    </div>
 
-                        <b-form-checkbox v-model="data.item.active" name="check-button" switch
-                          @input="toggleStatus(data.item.id)">
+    <hr>
+    <h5 class="mb-3">Logo & Theme Colors</h5>
 
-                        </b-form-checkbox>
-                      </template>
-                    </b-table>
+    <div class="float mb-3">
+      <img v-if="!url" id="preview" :src="unit.logo != '' ? unit.logo : require('../../../assets/images/logo.png')"
+        style="height: 256px; width: 256px; border-radius: 50px;" />
+      <img v-else id="preview" :src="url" style="height: 256px; width: 256px; border-radius: 50px;" />
+    </div>
 
-                  </form>
-                </ValidationObserver>
-                </b-col>
-              </b-row>
-          </template>
-        </iq-card>
+    <div class="checkbox-label mb-3">
+
+      <label class="mr-5" for="logo">Logo:</label>
+      <b-form-file type="input" @change="onFileChange" id="logo" placeholder="Enter your clinic logo"
+        style="width: 256px;"></b-form-file>
+    </div>
+
+    <b-row>
+      <b-col sm="2">
+
+        <div class="mb-3">
+          <label class="mr-5">
+            Primary:
+          </label>
+          <b-form-input type="color" v-model="primaryColor" style="width: 100px; height: 50px;"></b-form-input>
+        </div>
       </b-col>
+
+    <div class="mb-3">
+      <label class="mr-5">
+        Background:
+      </label>
+      <b-form-input type="color" v-model="bgColor" style="width: 100px; height: 50px;"></b-form-input>
+    </div>
     </b-row>
+
+
+    <div class="checkbox-label mb-3">
+      <label class="mr-5">
+        Default Pallet:
+      </label>
+      <b-button class="mr-2" v-for="(col, i) in colors" :key="i" @click="changeColor(col)"
+        :style="`background: ${col.primary} !important; width: 30px;`"></b-button>
+      <b-button class="mr-2" @click="resetColor()" variant="primary">Reset</b-button>
+    </div>
+
+
+    <br>
+
+    <b-button class="mr-2" variant="primary" @click="onSave">Save</b-button>
+    <b-button variant="secondary" type="submit" @click="onBack">Back</b-button>
   </b-container>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { xray } from '../../../config/pluginInit'
-import clinicsService from '../../../services/clinic'
-import UnitForm from './Forms/UnitForm.vue'
+import clinicServices from '../../../services/clinic'
 
 export default {
-  name: 'UiDataTable',
-  props: {
-    active: String
-  },
+  name: 'ServiceForm',
   async mounted () {
-    xray.index()
-    await this.getAllUnits()
+    console.log(this.colors, 'clinicp rops');
   },
   async created () {
+    await this.getClinic()
+
+    if (this.unit.logo != '')
+      this.url = this.unit.logo
   },
   components: {
-    UnitForm
   },
   computed: {
     ...mapGetters({
-      userState: 'User/userState',
-      clinicalUnitsState: 'Clinic/clinicalUnitsState'
+      clinicState: 'Clinic/clinicState',
+
+      colors: 'Setting/colorState',
+      primaryColorState: 'Setting/primaryColor'
     })
   },
+  watch: {
+    primaryColor (newv) {
+      this.color.primary = newv
+      this.changeColor(this.color)
+    },
+    bgColor (newv) {
+      this.color.bodyBgLight = newv
+      this.changeColor(this.color)
+    }
+  },
+  data () {
+    return {
+      url: '',
+      unit: {},
+      roles: [
+        { text: 'Web Designer', value: 'Web Designer' },
+        { text: 'Web Developer', value: 'Web Developer' },
+        { text: 'Tester', value: 'Tester' },
+        { text: 'Php Developer', value: 'Php Developer' },
+        { text: 'Ios Developer', value: 'Ios Developer' }
+      ],
+      countries: [
+        { value: 'Canada', text: 'Canada' },
+        { value: 'Niada', text: 'Niada' },
+        { value: 'USA', text: 'USA' },
+        { value: 'India', text: 'India' },
+        { value: 'Africa', text: 'Africa' }
+      ],
+      color: {
+        primary: '#0db5c8',
+        bodyBgLight: '#eff7f8'
+      },
+      primaryColor: '#0db5c8',
+      bgColor: '#eff7f8'
+    }
+  },
   methods: {
-    async onFileChange (event, item) {
-      const file = event.target.files[0]
+    ...mapActions({
+      setPrimaryColor: 'Setting/setPrimaryColor'
+    }),
+    async getClinic () {
+      let id = this.$route.path.split('/')[3]
+      let { data } = await clinicServices.getById(id)
+      this.unit = data
+    },
+    onClick (e) {
+      this.activePage = e.target.innerHTML
+    },
+    onSave () {
+      console.log(this.color, 'save');
+      this.setPrimaryColor(this.color)
+    },
+    onBack () {
+      this.$router.back()
+      console.log(this.primaryColorState, 'cback');
+      this.changeColor(this.primaryColorState)
+    },
+    async onFileChange (e) {
+      let file = e.target.files[0]
 
       if (!file) {
         this.url = null
         return
       }
-      item.logo = await this.getBase64(file)
+
+      let fileType = file.type.split('/')[0]
+      if (file.size > 2048000) {
+        this.makeWarningToast('Insert file with size less than 2mb')
+        file = null
+        return
+      }
+
+      if (fileType !== 'image') {
+        this.makeWarningToast('Insert an image')
+        file = null
+        return
+      }
+
+      this.url = URL.createObjectURL(file)
+      this.unit.logo = await this.getBase64(file)
     },
     async getBase64 (file) {
       return new Promise((resolve, reject) => {
@@ -128,96 +244,52 @@ export default {
         reader.onerror = (error) => reject(error)
       })
     },
-    ...mapActions({
-      setClinicalUnitsState: 'Clinic/setClinicalUnitsState'
-    }),
-    onCreate (unit) {
-      this.units.push(this.parseUnit(unit))
-      this.setServiceState(this.cloneObject(this.units))
-    },
-    toggleStatus (id) {
-      clinicsService.toggleStatus(id)
-      this.setClinicalUnitsState(this.cloneObject(this.units))
-    },
-    filter () {
-      this.filteredData = []
+    changeColor (color) {
+      document.documentElement.style.setProperty('--iq-primary', color.primary)
+      document.documentElement.style.setProperty('--iq-bg-light-color', color.bodyBgLight)
 
-      this.units.map(unit => {
-        if (unit.name.includes(this.filteredText) || unit.description.includes(this.filteredText)) {
-          this.filteredData.push(unit)
-        }
-      })
+      document.documentElement.style.setProperty('--iq-primary-dark', this.luminance(color.primary, -0.6))
+      document.documentElement.style.setProperty('--iq-bg-dark-color', this.luminance(color.bodyBgLight, -0.6))
+
+      this.color = color
     },
-    async getAllUnits () {
-      this.units = this.parseListUnits(this.cloneObject(this.clinicalUnitsState))
+    resetColor () {
+      this.changeColor(this.colors[0])
     },
-    edit (item) {
-      this.units.map(clinic => {
-        clinic.editable = false
-      })
-      item.editable = true
-    },
-    async update (item) {
-      item.editable = false
-      await clinicsService.update(item)
-      this.setClinicalUnitsState(this.cloneObject(this.units))
-      this.makeSuccessToast("$t('settings.unitTab.messages.changes')")
-    },
-    async remove (item) {
-      let isSuccess = await clinicsService.delete(item.id)
-      if (isSuccess) {
-        let indexFilteredData = this.filteredData.indexOf(item)
-        this.filteredData.splice(indexFilteredData, 1)
-        let indexClinics = this.units.indexOf(item)
-        this.units.splice(indexClinics, 1)
-        this.makeSuccessToast("$t('settings.unitTab.messages.unitDeleted')")
-      } else {
-        this.makeWarningToast("$t('settings.unitTab.messages.unitIsUse')")
+    luminance (hex, luminosity = 0) {
+      hex = hex.replace(/[^0-9a-f]/gi, '')
+      const isValidHex = hex.length === 6 || hex.length === 3
+
+      if (!isValidHex) throw new Error("Invalid HEX")
+
+      if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
       }
+
+      const black = 0
+      const white = 255
+      const twoDigitGroup = hex.match(/([0-9a-f]){2}/gi)
+      let newHex = "#"
+
+      for (let twoDigit of twoDigitGroup) {
+        const numberFromHex = parseInt(twoDigit, 16)
+        const calculateLuminosity = numberFromHex + (luminosity * 255)
+        const blackOrLuminosity = Math.max(black, calculateLuminosity)
+        const partialColor = Math.min(white, blackOrLuminosity)
+        const newColor = Math.round(partialColor)
+        const numberToHex = newColor.toString(16)
+        const finalHex = `0${numberToHex}`.slice(-2)
+
+        newHex = newHex + finalHex
+      }
+
+      return newHex
     },
-    close (item) {
-      item.editable = false
-    },
-    parseUnit (unit) {
-      unit.editable = false
-      return unit
-    },
-    parseListUnits (units) {
-      return units.map(unit => this.parseUnit(unit))
-    }
   },
-  data () {
-    return {
-      filteredData: [],
-      filteredText: '',
-      unit: {
-        name: '',
-        description: '',
-        category: {},
-        price: ''
-      },
-      defaultService: {
-        name: '',
-        description: '',
-        category: '',
-        price: ''
-      },
-      columns: [
-        { label: this.$t('settings.unitTab.units.logo'), key: 'logo', class: 'text-center' },
-        { label: this.$t('settings.unitTab.units.nameClinic'), key: 'name', class: 'text-left', sortable: true },
-        { label: this.$t('settings.unitTab.units.description'), key: 'description', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.alias'), key: 'alias', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.currency'), key: 'currency', class: 'text-left' },
-        { label: this.$t('settings.unitTab.units.action'), key: 'action', class: 'text-center' },
-        { label: this.$t('settings.unitTab.units.active'), key: 'active', class: 'text-center' }
-      ],
-      units: [],
-      category: null
-    }
-  }
+
 }
 </script>
-<style>
+<style scoped>
 .filter-field {
   height: 35px !important;
   margin-left: -10px !important;
