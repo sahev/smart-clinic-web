@@ -16,6 +16,7 @@
         </div>
       </div>
       <nav class="navbar navbar-expand-lg navbar-light p-0">
+
         <div class="iq-search-bar">
           <form action="#" class="searchbox">
             <input type="text" v-model="globalSearchText" @keypress="openGlobalSearch" class="text search-input"
@@ -37,6 +38,10 @@
         </b-collapse>
         <slot name="right" />
       </nav>
+
+      <!-- loader line aqui -->
+      <LoaderLine />
+
       <Transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <Global :search="globalSearchText" :show="globalSearchText.length > 0" @closeSearch="closeGlobalSearch()">
         </Global>
@@ -67,8 +72,6 @@ export default {
   components: {
     List,
     Global
-  },
-  computed: {
   },
   data () {
     return {

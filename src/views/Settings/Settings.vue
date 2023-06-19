@@ -90,7 +90,8 @@ export default {
   methods: {
     ...mapActions({
       setCategoryState: 'Category/setCategoryState',
-      setServiceState: 'Service/setServiceState'
+      setServiceState: 'Service/setServiceState',
+      setLoaderState: 'Setting/setLoaderState'
     }),
     onClick (id) {
       // this.clinicSettingsActive = true
@@ -98,9 +99,11 @@ export default {
       this.$router.push(`clinic/${id}`)
     },
     async init () {
+      this.setLoaderState(true)
       await this.getAllClinics()
       await this.getAllCategories()
       await this.getAllServices()
+      this.setLoaderState(false)
     },
     onCreate (unit) {
       this.units.push(unit)

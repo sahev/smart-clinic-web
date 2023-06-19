@@ -4,6 +4,7 @@ import mutations from './mutations'
 import SideBarItems from '../../MenusOptions/json/SideBar'
 
 const state = {
+  loaderState: false,
   horizontalMenu: false,
   miniSidebarMenu: false,
   lang: { title: 'English', value: 'en', image: require('../../assets/images/small/flag-01.png') },

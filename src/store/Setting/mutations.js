@@ -31,5 +31,8 @@ export default {
   },
   setDarkMode (state, data) {
     state.darkMode = data
+  },
+  setLoaderState(state, data) {
+    state.loaderState = data
   }
 }

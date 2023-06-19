@@ -164,10 +164,10 @@
         <!-- TOP Nav Bar END -->
         <template>
 
-          <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in"
-            :duration="animated.delay" :leave-active-class="`animated ${animated.exit}`">
+          <!-- <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in"
+            :duration="animated.delay" :leave-active-class="`animated ${animated.exit}`"> -->
             <router-view />
-          </transition>
+          <!-- </transition> -->
         </template>
         <FooterStyle1>
           <template v-slot:left>

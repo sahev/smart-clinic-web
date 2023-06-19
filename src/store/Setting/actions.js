@@ -52,5 +52,8 @@ export default {
   },
   setDarkMode (context, payload) {
     context.commit('setDarkMode', payload)
+  },
+  setLoaderState (context, payload) {
+    context.commit('setLoaderState', payload)
   }
 }

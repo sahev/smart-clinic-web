@@ -10,5 +10,6 @@ export default {
   langOptionState: state => state.langOption,
   colorState: state => state.colors,
   darkMode: state => state.darkMode,
-  primaryColor: state => state.primaryColor
+  primaryColor: state => state.primaryColor,
+  loaderState: state => state.loaderState
 }
