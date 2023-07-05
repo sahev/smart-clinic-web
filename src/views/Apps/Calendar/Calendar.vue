@@ -47,7 +47,8 @@
           <template v-slot:body>
             <ul class="m-0 p-0 today-schedule">
               <li class="d-flex" v-for="event in getDayEvents()" :key="event.id">
-                <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-primary" :style="`color: ${event.backgroundColor} !important`"/></div>
+                <div class="schedule-icon"><i class="ri-checkbox-blank-circle-fill text-primary"
+                    :style="`color: ${event.backgroundColor} !important`" /></div>
                 <div class="schedule-text"> <span>{{ event.title }}</span>
                   <span>{{ getPeriodConsult(event) }}</span>
                 </div>
@@ -63,10 +64,10 @@
           </template>
           <template v-slot:headerAction>
             <b-button @click="showModal()" variant="primary"><i class="ri-add-line mr-2"></i>Book Appointment</b-button>
-            <CalendarForm :onDateClick="onDateClick" />
+            <CalendarForm :onDateClick="onDateClick" @onSaveEvent="onSaveEvent($event)" />
           </template>
           <template v-slot:body>
-            <FullCalendar @onDateClickEvent="onDateClickEvent($event)" />
+            <FullCalendar @onDateClickEvent="onDateClickEvent($event)" :event="event" />
           </template>
         </iq-card>
       </b-col>
@@ -107,7 +108,7 @@ export default {
       allSelected: true,
       indeterminate: false,
       searchText: '',
-
+      event: null
     }
   },
   created () {
@@ -156,6 +157,10 @@ export default {
       goToDate: 'Calendar/goToDate',
       updateEvent: 'Calendar/updateEvent',
     }),
+    onSaveEvent (e) {
+      console.log('saveevent');
+      this.event = e
+    },
     groupById (staffs) {
       return staffs.sort().reduce((init, current) => {
         if (init.length === 0 || init[init.length - 1].id !== current.id) {
@@ -197,16 +202,16 @@ export default {
       }
     },
     hiddenEvents (staffId) {
-      let events = window.document.getElementsByClassName("event-" + staffId)
+      let events = window.document.getElementsByClassName("event-staff-id-" + staffId)
 
       Array.from(events).forEach(el => {
         el.classList.add('hidden-event')
       })
 
       this.events.map(event => {
-        if (event.classNames == "event-" + staffId) {
+        if (event.classNames == "event-staff-id-" + staffId) {
           let e = this.cloneObject(event)
-          e.classNames = "event-" + staffId + ' hidden-event'
+          e.classNames.push('hidden-event')
           this.updateEvent(e)
         }
       })
@@ -216,24 +221,40 @@ export default {
       if (isDefault) {
         this.events.map(event => {
           let e = this.cloneObject(event)
-          e.classNames = "event-" + event.staff.id
+          let isHidden = event.classNames[3] === 'hidden-event'
+          console.log(e.classNames, 'load');
+          if (isHidden) {
+            e.classNames = e.classNames.pop()
+
+          }
+          // e.classNames = "event-staffId-" + event.staff.id
           this.updateEvent(e)
         })
         return
       }
 
-      let events = window.document.getElementsByClassName("event-" + staffId)
+      let events = window.document.getElementsByClassName("event-staff-id-" + staffId)
 
+      console.log(events, 'events classeds');
       Array.from(events).forEach(el => {
         el.classList.remove('hidden-event')
       })
 
       this.events.map(event => {
-        if (event.classNames == "event-" + staffId + ' hidden-event') {
+        let eventStaffId = event.classNames[0].split('-')[2]
+        let isHidden = event.classNames[3] === 'hidden-event'
+
+        if (eventStaffId === staffId && isHidden) {
           let e = this.cloneObject(event)
-          e.classNames = "event-" + staffId
+          e.classNames = e.classNames.pop()
           this.updateEvent(e)
         }
+
+        // if (event.classNames == "event-staffId-" + staffId + ' hidden-event') {
+        //   let e = this.cloneObject(event)
+        //   e.classNames = "event-staffId-" + staffId
+        //   this.updateEvent(e)
+        // }
       })
     },
     onDateClickEvent (event) {

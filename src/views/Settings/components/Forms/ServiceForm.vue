@@ -43,6 +43,12 @@
             <b-form-textarea type="service" v-model="service.description" placeholder="Enter service description"
               rows="5"></b-form-textarea>
           </div>
+          <div class="mb-3">
+            <label class="mr-5">
+              Primary:
+            </label>
+            <b-form-input type="color" v-model="service.color" style="width: 100px; height: 50px;"></b-form-input>
+          </div>
         </form>
         <hr class="solid">
         <b-button class="float-right" variant="primary" @click="handleSubmit(register)">Register</b-button>
@@ -106,7 +112,8 @@ export default {
       service: {
         name: '',
         description: '',
-        clinicId: null
+        clinicId: null,
+        color: ''
       },
       defaultService: {
         name: '',

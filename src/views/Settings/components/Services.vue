@@ -41,6 +41,13 @@
                       class="form-control filter-field">
                     <span v-else :value="null" disabled>{{ data.item.price }}</span>
                   </template>
+
+                  <template v-slot:cell(color)="data">
+                    <b-form-input v-if="data.item.color" type="color" v-model="data.item.color"
+                      class="form-control filter-field"></b-form-input>
+                    <span v-else :value="null" disabled>{{ data.item.color }}</span>
+                  </template>
+
                   <template v-slot:cell(action)="data">
                     <b-button v-if="!data.item.editable" variant=" iq-bg-success mr-1" size="sm" @click="edit(data.item)">
                       <i class="ri-ball-pen-fill m-0"></i>
@@ -213,6 +220,7 @@ export default {
         { label: this.$t('settings.servicesTab.services.description'), key: 'description', class: 'text-left' },
         { label: this.$t('settings.servicesTab.services.category'), key: 'category', class: 'text-left' },
         { label: this.$t('settings.servicesTab.services.price'), key: 'price', class: 'text-left' },
+        { label: this.$t('settings.servicesTab.services.color'), key: 'color', class: 'text-left' },
         { label: this.$t('settings.servicesTab.services.action'), key: 'action', class: 'text-center' },
         { label: this.$t('settings.servicesTab.services.active'), key: 'active', class: 'text-center' }
       ],

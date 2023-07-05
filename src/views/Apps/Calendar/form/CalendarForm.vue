@@ -54,11 +54,20 @@
           }}</b-select-option>
         </b-select>
 
+        <span>Service</span>
+        <b-select plain v-model="event.service">
+          <template #first>
+            <b-form-select-option :value="null" disabled>Select service</b-form-select-option>
+          </template>
+
+          <b-select-option v-for="service in this.services" :value="service" :key="service.id">{{ service.name }}</b-select-option>
+        </b-select>
+
         <span>url</span>
         <b-form-input v-model="event.url" placeholder="url"></b-form-input>
 
         <span>classNames</span>
-        <b-form-input v-model="event.classNames" placeholder="classNames"></b-form-input>
+        <li v-for="className in event.classNames" :key="className">{{ className }}</li>
 
         <span>backgroundColor</span>
         <b-form-input v-model="event.backgroundColor" placeholder="backgroundColor"></b-form-input>
@@ -98,11 +107,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import usersService from '../../../../services/user'
+import serviceService from '../../../../services/serviceTypes'
 
 export default {
   props: ['onDateClick'],
   data () {
     return {
+      services: {},
       event: {
         groupId: null,
         allDay: false,
@@ -110,7 +121,7 @@ export default {
         end: null,
         title: null,
         url: null,
-        classNames: null,
+        classNames: [],
         display: null,
         backgroundColor: null,
         borderColor: null,
@@ -118,12 +129,7 @@ export default {
         startEditable: true,
         durationEditable: true,
         resourceEditable: true,
-        textColor: null,
-        extendedProps: {
-          staff: {
-            fullName: ''
-          }
-        }
+        textColor: null
       },
       staffs: [],
       selectedStaff: null,
@@ -132,6 +138,7 @@ export default {
   },
   mounted () {
     this.getAllStaffs()
+    this.getAllServices()
   },
   watch: {
     onDateClick (newEvent) {
@@ -172,12 +179,11 @@ export default {
       console.log(data, 'users');
       this.staffs = this.parseListStaffs(data)
     },
+    async getAllServices () {
+      let { data } = await serviceService.getAll()
+      this.services = data
+    },
     parseStaff (staff) {
-      // if (!staff.color) {
-      //   staff.color = this.random_rgba()
-      //   console.log('sem cor', staff.color);
-      // }
-
       staff.fullName = staff.firstName + ' ' + staff.lastName
       return staff
     },
@@ -190,10 +196,13 @@ export default {
     },
     save () {
 
-      this.event.classNames = 'event-' + this.event.staff.id
+      this.event.classNames = [
+        `event-staff-id-${this.event.staff.id}`,
+        `event-service-type-id-${this.event.service.id}`,
+        `event-service-type-color-${this.event.service.color}`
+      ]
 
       this.event.backgroundColor = this.event.borderColor = this.event.staff.color
-      console.log('save evevent', this.event);
 
       if (!this.event.allDay) {
         this.event.start = this.event.start ? new Date(this.event.startStr.split('T', 1) + 'T' + this.event.start).toISOString() : this.event.dateStr
@@ -212,6 +221,7 @@ export default {
         this.createEvent(this.event)
       }
 
+      this.$emit('onSaveEvent', this.event)
       this.hideModal()
     },
     remove () {

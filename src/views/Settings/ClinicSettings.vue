@@ -11,6 +11,8 @@
           ariaControls="pills-categories-fill" role="tab" :ariaSelected="false" title="Categories" />
         <tab-nav-items :active="false" id="pills-staffs-tab-fill" href="#pills-staffs-fill"
           ariaControls="pills-staffs-fill" role="tab" :ariaSelected="false" title="Staffs" />
+        <tab-nav-items :active="false" id="pills-communication-tab-fill" href="#pills-communication-fill"
+          ariaControls="pills-communication-fill" role="tab" :ariaSelected="false" title="Communication" />
       </tab-nav>
       <tab-content id="pills-tabContent-1" class="mt-0">
         <tab-content-item :active="true" id="pills-clinics-fill" aria-labelled-by="pills-clinics-tab-fill">
@@ -25,6 +27,9 @@
         <tab-content-item :active="false" id="pills-staffs-fill" aria-labelled-by="pills-staffs-tab-fill">
           <Staffs :active="activePage" />
         </tab-content-item>
+        <tab-content-item :active="false" id="pills-communication-fill" aria-labelled-by="pills-communication-tab-fill">
+          <Communication :active="activePage" />
+        </tab-content-item>
       </tab-content>
     </template>
   </iq-card>
@@ -35,15 +40,16 @@ import Units from './components/Units.vue'
 import Services from './components/Services.vue'
 import Staffs from './components/Staffs.vue'
 import Categories from './components/Categories.vue'
+import Communication from './components/Communication.vue'
 
 export default {
   name: 'AddUser',
   components: {
-
     Units,
     Services,
     Staffs,
-    Categories
+    Categories,
+    Communication
   },
   async created () {
 

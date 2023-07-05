@@ -13,10 +13,10 @@ import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 export default {
   name: 'FullCalendar',
-  props: {
-    // eslint-disable-next-line vue/require-valid-default-prop
-    // calendarEvents: { type: Array, default: [] },
-  },
+  props: ['event'],
+  // eslint-disable-next-line vue/require-valid-default-prop
+  // calendarEvents: { type: Array, default: [] },
+
   data () {
     return {
       calendarPlugins: [
@@ -37,8 +37,11 @@ export default {
     date (date) {
       this.goToDate(date)
     },
-    events (newv) {
-      console.log('mudei');
+    events () {
+      this.reRender()
+    },
+    event (newv, oldv) {
+      // this.parseServiceColors(null)
       this.reRender()
     }
   },
@@ -90,6 +93,8 @@ export default {
         dateClick: this.handleClick,
         eventClick: this.handleClick,
         eventDrop: this.handleClick,
+        // eventDidMount: this.parseServiceColors,
+        eventClassNames: this.parseServiceColors
         // select: this.onDateSelect, // select multiple days
       }
     }
@@ -144,6 +149,27 @@ export default {
     reRender () {
       let calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.render()
+    },
+    parseServiceColors (evts) {
+      if(evts) {
+        let events = evts.view.calendar.currentData.eventStore.defs;
+        Object.keys(events).forEach((key) => {
+          let event = events[key]
+          console.log(event.extendedProps.service.name, event.extendedProps.service.id, 'change to color');
+          this.setElementServiceColor(event.extendedProps.service)
+        });
+
+      }
+    },
+    setElementServiceColor (newService) {
+      let elements = document.getElementsByClassName(`event-service-type-color-${newService.color}`)
+
+      console.log(elements, 'elements');
+      let serviceTypeColor = `border-left-color: ${newService.color}; border-left-width: thick;`
+
+      Array.from(elements).forEach(el => {
+        el.setAttribute('style', el.getAttribute('style') + serviceTypeColor)
+      })
     },
   }
 }

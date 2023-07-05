@@ -24,6 +24,7 @@ jobs:
           echo VUE_APP_ENV=${{ vars.VUE_APP_ENV }} >> .env
           echo VUE_APP_API_URL=${{ vars.VUE_APP_API_URL }} >> .env
           echo VUE_APP_BASE_URL=${{ vars.VUE_APP_BASE_URL }} >> .env
+          echo VUE_APP_WHATSAPP_API_URL=${{ vars.VUE_APP_WHATSAPP_API_URL }} >> .env
           echo VUE_APP_I18N_LOCALE=${{ vars.VUE_APP_I18N_LOCALE }} >> .env
           echo VUE_APP_I18N_FALLBACK_LOCALE=${{ vars.VUE_APP_I18N_FALLBACK_LOCALE }} >> .env
 
