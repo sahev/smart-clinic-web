@@ -126,7 +126,7 @@ export default {
       }
     },
     socketInit () {
-      var socket = io.connect(process.env.VUE_APP_WHATSAPP_API_URL);
+      var socket = io.connect(process.env.VUE_APP_WEBSOCKET_URL);
 
       let self = this
 
