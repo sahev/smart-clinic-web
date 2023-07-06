@@ -126,9 +126,8 @@ export default {
       }
     },
     socketInit () {
-      var socket = io.connect(process.env.VUE_APP_WHATSAPP_API_URL, {
-        path: '/whapi/socket.io'
-      });
+      var socket = io.connect(process.env.VUE_APP_WHATSAPP_API_URL);
+
       let self = this
 
       socket.on(`session.status.${this.clinicId}`, function (status) {
@@ -138,10 +137,6 @@ export default {
       socket.on(`session.qrcode.${this.clinicId}`, function (b64QrCode) {
         self.b64img = b64QrCode
       })
-
-      if (this.statusConnection === 'connected') {
-        socket.disconnect();
-      }
     }
   },
   data () {
